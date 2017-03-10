@@ -56,11 +56,11 @@ raml2html \
 MIT © [Wouter Dullaert](https://wdullaer.com)
 
 
-[npm-image]: https://badge.fury.io/js/raml2slate.svg
-[npm-url]: https://npmjs.org/package/raml2slate
-[travis-image]: https://travis-ci.org/wdullaer/raml2slate.svg?branch=master
-[travis-url]: https://travis-ci.org/wdullaer/raml2slate
-[daviddm-image]: https://david-dm.org/wdullaer/raml2slate.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/wdullaer/raml2slate
-[greenkeeper-image]: https://badges.greenkeeper.io/wdullaer/raml2slate.svg
+[npm-image]: https://badge.fury.io/js/raml2html-slate-theme.svg
+[npm-url]: https://npmjs.org/package/raml2html-slate-theme
+[travis-image]: https://travis-ci.org/wdullaer/raml2html-slate-theme.svg?branch=master
+[travis-url]: https://travis-ci.org/wdullaer/raml2html-slate-theme
+[daviddm-image]: https://david-dm.org/wdullaer/raml2html-slate-theme.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/wdullaer/raml2html-slate-theme
+[greenkeeper-image]: https://badges.greenkeeper.io/wdullaer/raml2html-slate-theme.svg
 [greenkeeper-url]: https://greenkeeper.io/
