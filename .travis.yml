@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- v7
+- v6
+- v5
+- v4
+deploy:
+  provider: npm
+  email: wouter.dullaert@gmail.com
+  api_key:
+    secure: M1hyzW1VBSm2bTVi/YfFXFj6UTqU8V5+OBL8D16cczfgFAX7zG5sVb+waTTqALT92zWouM2gzB7dybv5/WQNzFok/k77gxvDgH/gDi7bQclWk2N+D+HzvTlWxjvTyJSMBNxyrE6zbEhWHCg8XY9y9PXKLk+EA6yMvi4ZBkKd7+xE3irBMHuwrQyfEnjs0NCd/3VKvFoqlQTvtod/sBeMmt7tn1D9/N1UQtdkAphpWmttj5pXrAgJPORVCJJCejwdAbg/SRaFMTgtvB1RPV1dfnlqnPlCp6Pj8TP2Cpb0kbQOZYxfglyeeNSIiqD5vdovwebAm6FqAtrCUvwO6gUDJbBLNY/NM5dhct8BkVdn19Ah4xw65jHCK9kiSxKLuPQMFpfxvj5SNLi3Js/BZvo3eeKrTtOAeutua8U6iXxZTnRGe7Iu+lo9QldruTtX8ikidCqtf4jxSzZsuqxxxt+GxWBrqyo/9Ogf1cwhAcK3V/Xh36wzSEfZXbA4/CYrHFVANQHCEnvVyy1KWfYDMGhoaC9NGWCnHxMZe+VM9CJuCL2BbH2I7Op9p090PCuONj/C57rKPr23E2ylpes/swyotdTytTe4PZEVYOmtfoKnTJpG6gRbAL2rT7J6crcwhSMcVEN62NISF3A2kUgD4oJoTuMcsWmi1cDm2bB3JDKJtjA=
+  on:
+    tags: true
+    node: v6

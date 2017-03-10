@@ -1,0 +1,60 @@
+{
+  "name": "raml2html-slate-theme",
+  "description": "A raml2html template for rendering RAML to a Slate like layout",
+  "version": "1.0.0",
+  "author": {
+    "name": "Wouter Dullaert",
+    "email": "wouter.dullaert@gmail.com",
+    "url": "https://wdullaer.com"
+  },
+  "bugs": {
+    "url": "https://github.com/raml2html/slate-theme/issues"
+  },
+  "dependencies": {
+    "marked": "^0.3.6",
+    "minimize": "^2.1.0",
+    "nunjucks": "^3.0.0",
+    "nunjucks-markdown": "^2.0.1",
+    "stylus": "^0.54.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "eslint": "^3.14.1",
+    "eslint-config-standard": "^7.0.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.2.0",
+    "raml2html": "^5.1.0",
+    "rewire": "^2.5.2"
+  },
+  "homepage": "https://github.com/raml2html/slate-theme",
+  "keywords": [
+    "RAML", "raml2html-theme"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/raml2html/slate-theme.git"
+  },
+  "preferGlobal": true,
+  "files": [
+    "index.js",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "scripts": {
+    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha",
+    "lint": "./node_modules/.bin/eslint lib test",
+    "mocha": "./node_modules/.bin/mocha",
+    "prepublish": "npm run test",
+    "test": "npm run lint && npm run coverage"
+  }
+}

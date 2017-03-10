@@ -1,0 +1,36 @@
+{% set comma = joiner() %}
+<h1 id="{{ title | lower | replace(' ', '-') }}">{{ title }} Documentation</h1>
+<p>
+{% if version %}<strong>version</strong> {{ version }}<br/>{% endif %}
+{% if baseUri %}<strong>baseUri</strong> {{ baseUri }}<br/>{% endif %}
+{% if protocols %}<strong>protocols</strong>
+  {% for protocol in protocols -%}
+    {{ comma() }} {{protocol}}
+  {%- endfor %}
+  <br/>
+{% endif -%}
+{% if mediaType %}<strong>mediaType</strong> {{ mediaType }}{% endif %}
+</p>
+
+{% for item in documentation %}
+<h1 id="{{ item.title | lower | replace(' ', '-') }}">{{ item.title }}</h1>
+{% markdown %}
+{{ item.content }}
+{% endmarkdown %}
+{% endfor %}
+
+<hr/>
+
+{% for resource in resources %}
+{% if resource.displayName %}
+  <h1 id="{{ resource.displayName | lower | replace(' ', '-') }}">{{ resource.displayName }}</h1>
+{% else %}
+  <h1 id="{{ resource.relativeUri | lower | replace(' ', '-') }}">{{ resource.relativeUri }}</h1>
+{% endif %}
+<p>
+  {{ resource.description }}
+</p>
+
+{% include "./resource.nunjucks" %}
+
+{% endfor %}
