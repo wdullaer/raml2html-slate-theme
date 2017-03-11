@@ -35,7 +35,7 @@ raml2html.render(source, slateConfig)
 On the command line:
 ```bash
 raml2html \
--t 'raml2html-slate-theme' \
+--theme 'raml2html-slate-theme' \
 -o 'path/to/output/file.html' \
 -i 'path/to/raml/file.raml'
 ```
