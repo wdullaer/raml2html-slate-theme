@@ -20,7 +20,7 @@ In javascript:
 ```js
 const raml2html = require('raml2html');
 const options = {
-  logo: '/path/to/my/logo.png',
+  'logo': '/path/to/my/logo.png',
   'color-theme': 'path/to/my/color-theme.styl'
 }
 const slateConfig = raml2html.getConfigForTheme('raml2html-slate-theme', options);
