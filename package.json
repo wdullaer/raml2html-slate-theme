@@ -27,7 +27,11 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
+<<<<<<< HEAD
     "mocha": "^3.4.2",
+=======
+    "mocha": "^3.4.1",
+>>>>>>> Updated dependencies
     "raml2html": "^6.3.0",
     "rewire": "^2.5.2"
   },
