@@ -3,3 +3,4 @@ coverage
 .npmrc
 npm-debug.log
 .directory
+.DS_Store
