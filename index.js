@@ -11,7 +11,7 @@ let minimize = new Minimize({quotes: true})
 const templatesPath = path.join(__dirname, 'templates')
 const DEFAULT_LOGO = path.join(templatesPath, 'images', 'logo.png')
 const DEFAULT_COLOR_THEME = path.join(templatesPath, 'css', '_variables.styl.default')
-const DEFAULT_LANGUAGE_TABS = '["json"]'
+const DEFAULT_LANGUAGE_TABS = ['json']
 
 let mdRenderer = new marked.Renderer()
 mdRenderer.hr = () => `</div><div class="set-examples">`
@@ -162,20 +162,24 @@ function configureTheme (args) {
 /**
  * TODO: add tests
  * Convert the `language-tabs` commandline argument into an Array of strings
- * @param  {string} arg        The argument as passed on the commandline
+ * @param  {string|array} arg  The argument as passed on the commandline or in the config object
  * @return {array<string>}     An array of strings for the language tabs
  */
 function parseLanguageTabs (arg) {
   let languageTabs
 
-  try {
-    languageTabs = JSON.parse(arg)
-  } catch (e) {
-    if (e instanceof SyntaxError) {
-      logAndExit()
-    } else {
-      throw e
+  if (typeof arg === 'string') {
+    try {
+      languageTabs = JSON.parse(arg)
+    } catch (e) {
+      if (e instanceof SyntaxError) {
+        logAndExit()
+      } else {
+        throw e
+      }
     }
+  } else {
+    languageTabs = arg
   }
 
   if (!Array.isArray(languageTabs)) {
@@ -193,7 +197,16 @@ function parseLanguageTabs (arg) {
   function logAndExit () {
     console.error(`language-tabs argument "${arg}" is invalid`)
     console.error('language-tabs argument should be a JSON array of strings. eg: ["json", "xml"]')
-    process.exit(1)
+
+    if (path.basename(process.argv[1]) === 'raml2html') {
+      // We are most likely running from the CLI
+      // Kill the process
+      process.exit(1)
+    } else {
+      // We are most likely running embedded as a library
+      // Throw an error
+      throw new TypeError(`language-tabs argument "${arg}" is invalid`)
+    }
   }
 }
 
