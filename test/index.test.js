@@ -247,7 +247,8 @@ describe('processRamlObj()', () => {
     const ramlObj = {foo: 'bar'}
     const config = {
       logoPath: testModule.__get__('DEFAULT_LOGO'),
-      colorThemePath: testModule.__get__('DEFAULT_COLOR_THEME')
+      colorThemePath: testModule.__get__('DEFAULT_COLOR_THEME'),
+      languageTabs: ['json']
     }
 
     return expect(processRamlObj(ramlObj, config)).to.eventually.be.a('string')

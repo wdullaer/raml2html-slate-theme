@@ -4,46 +4,25 @@
 {% endif %}
 {% for method in resource.methods %}
 
-{% if resource.displayName %}
-<h2 id="{{ (resource.displayName + " " + method.method) | lower | replace(' ', '-') }}">{{ resource.displayName + " " + method.method }}</h2>
-{% else %}
-<h2 id="{{ (resource.parentUrl + resource.relativeUri + method.method) | lower | replace(' ', '-') }}">{{ resource.parentUrl }}{{ resource.relativeUri}} {{ method.method }}</h2>
-{% endif %}
+<div class="set">
 
-<p>
-<code>{{ (method.method | upper )}}: {{ resource.parentUrl }}{{ resource.relativeUri }}</code> {% if method.securedBy %} <em>(secured)</em>{% endif %}
-</p>
+<div class="set-description">
+  <hr/>
+  {% if resource.displayName %}
+  <h2 id="{{ getSafeId(resource.displayName + '-' + method.method) }}">{{ resource.displayName + " " + method.method }}</h2>
+  {% else %}
+  <h2 id="{{ getSafeId(resource.parentUrl + resource.relativeUri + method.method) }}">{{ resource.parentUrl }}{{ resource.relativeUri}} {{ method.method }}</h2>
+  {% endif %}
 
-{% markdown -%}
-  {{ method.description }}
-{%- endmarkdown %}
+  <p>
+  <code>{{ (method.method | upper )}}: {{ resource.parentUrl }}{{ resource.relativeUri }}</code> {% if method.securedBy %} <em>(secured)</em>{% endif %}
+  </p>
 
-{% for response in method.responses %}
-  {% for body in response.body %}
-    {% for example in body.examples %}
-      {# Maybe put application/json in the tabs at the top and show all responses if a flag is set #}
-      {% if (response.code == "200" or response.code == "201") and body.key == "application/json" %}
-<div class="languagebox response">
-<pre><code>
-{{ example.value }}
-</code></pre>
-</div>
-      {% endif %}
-    {% endfor %}
-  {% endfor %}
-{% endfor %}
+  {% markdown -%}
+    {{ method.description }}
+  {%- endmarkdown %}
 
-{% for body in method.body %}
-  {% for example in body.examples %}
-<div class="languagebox body">
-<pre><code>
-{{ example.value }}
-</code></pre>
-</div>
-  {% endfor %}
-{% endfor %}
-
-{% if method.allUriParameters.length != 0 %}
+{% if method.allUriParameters | length != 0 %}
 <br/>
 <p><strong><em><big>URI Parameters</big></em></strong></p>
 
@@ -175,6 +154,43 @@
 {% endfor %}
 {% endif %}
 
+{% if getResponseHeaders(method) | length != 0 %}
+<br/>
+<p><strong><em><big>Response Headers</big></em></strong></p>
+{% for header in getResponseHeaders(method) -%}
+  <p>
+    <strong>{{ header.key }}</strong><br/>
+    {{ header.description }}
+  </p>
+  <table>
+    <thead>
+      <th>Property</th>
+      <th style="width: 99%;">Value</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td><em>type</em></td>
+        <td>{{ header.type }}</td>
+      </tr>
+      {% if header.enum -%}
+      {%- set comma = joiner() -%}
+      <tr>
+        <td><em>oneOf</em></td>
+        <td>{% for value in header.enum %}{{ comma() }} {{ value }}{% endfor %}</td>
+      </tr>
+      {% endif -%}
+      {% if header.examples -%}
+      {%- set comma = joiner() -%}
+      <tr>
+        <td><em>examples</em></td>
+        <td>{% for example in header.examples %}{{ comma() }}<code>{{ example.value }}</code>{% endfor %}</td>
+      </tr>
+      {% endif -%}
+    </tbody>
+  </table>
+{%- endfor %}
+{% endif %}
+
 {% if (method.responses | length) != 0 %}
 <br/>
 <p><strong><em><big>Possible Responses</big></em></strong></p>
@@ -185,6 +201,73 @@
   {%- endfor -%}
 </p>
 {% endif %}
+</div>
+
+<div class="set-examples">
+  <hr/>
+  {% if resource.displayName %}
+  <h2 class="toc-ignore" id="{{ getSafeId(resource.displayName + '-' + method.method) }}">{{ resource.displayName + " " + method.method }}</h2>
+  {% else %}
+  <h2 class="toc-ignore" id="{{ getSafeId(resource.parentUrl + resource.relativeUri + method.method) }}">{{ resource.parentUrl }}{{ resource.relativeUri}} {{ method.method }}</h2>
+  {% endif %}
+
+<blockquote><h3 class="toc-ignore">CURL EXAMPLE</h3></blockquote>
+<div class="languagebox bash">
+  <pre><code>{{ getCurlStatement(method, resource) }}</code></pre>
+</div>
+
+{% if method.headers | length != 0 %}
+<blockquote><h3 class="toc-ignore">REQUEST HEADERS</h3></blockquote>
+<div class="languagebox">
+  <pre><code>
+    {%- for header in method.headers -%}
+{%- if header.examples -%}
+{{ header.key }}: {{ header.examples[0].value }}
+{% endif -%}
+    {%- endfor -%}
+  </code></pre>
+</div>
+{% endif %}
+
+{% if method.body | length != 0%}
+<blockquote><h3 class="toc-ignore">REQUEST BODY</h3></blockquote>
+{% for body in method.body %}
+  {% for example in body.examples %}
+<div class="languagebox {{ getLanguage(body.key) }}">
+<pre><code>{{ example.value }}</code></pre>
+</div>
+  {% endfor %}
+{% endfor %}
+{% endif %}
+
+{% if getResponseHeaders(method) | length != 0 %}
+<blockquote><h3 class="toc-ignore">RESPONSE HEADERS</h3></blockquote>
+<div class="languagebox">
+<pre><code>
+  {%- for header in getResponseHeaders(method) -%}
+{%- if header.examples -%}
+{{ header.key }}: {{ header.examples[0].value }}
+{% endif -%}
+  {%- endfor -%}
+</code></pre>
+</div>
+{% endif %}
+
+{% for response in method.responses %}
+  {% if (response.code == "200" or response.code == "201")%}
+    <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY</h3></blockquote>
+    {% for body in response.body %}
+      {% for example in body.examples %}
+      {# Maybe put application/json in the tabs at the top and show all responses if a flag is set #}
+<div class="languagebox {{ getLanguage(body.key) }}">
+<pre><code>{{ example.value }}</code></pre>
+</div>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+</div>
+</div>
 
 {%- endfor -%}
 {% endif %}

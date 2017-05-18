@@ -1,5 +1,5 @@
 {% set comma = joiner() %}
-<h1 id="{{ title | lower | replace(' ', '-') }}">{{ title }} Documentation</h1>
+<h1 id="{{ getSafeId(title) }}">{{ title }} Documentation</h1>
 <p>
 {% if version %}<strong>version</strong> {{ version }}<br/>{% endif %}
 {% if baseUri %}<strong>baseUri</strong> {{ baseUri }}<br/>{% endif %}
@@ -13,19 +13,21 @@
 </p>
 
 {% for item in documentation %}
-<h1 id="{{ item.title | lower | replace(' ', '-') }}">{{ item.title }}</h1>
+<h1 id="{{ getSafeId(item.title) }}">{{ item.title }}</h1>
+<div class="set">
+  <div class="set-description">
 {% markdown %}
 {{ item.content }}
 {% endmarkdown %}
+  </div>
+</div>
 {% endfor %}
-
-<hr/>
 
 {% for resource in resources %}
 {% if resource.displayName %}
-  <h1 id="{{ resource.displayName | lower | replace(' ', '-') }}">{{ resource.displayName }}</h1>
+  <h1 id="{{ getSafeId(resource.displayName) }}">{{ resource.displayName }}</h1>
 {% else %}
-  <h1 id="{{ resource.relativeUri | lower | replace(' ', '-') }}">{{ resource.relativeUri }}</h1>
+  <h1 id="{{ getSafeId(resource.relativeUri) }}">{{ resource.relativeUri }}</h1>
 {% endif %}
 <p>
   {{ resource.description }}

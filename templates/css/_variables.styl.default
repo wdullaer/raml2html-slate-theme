@@ -67,6 +67,7 @@ $nav-width = 220px
 
 // portion of the screen taken up by code examples
 $examples-width = 55%
+$content-width = 100% - $examples-width
 
 // margin between nav items and logo, ignored if search is active
 $logo-margin = 100px
