@@ -25,169 +25,32 @@
 {% if method.allUriParameters | length != 0 %}
 <br/>
 <p><strong><em><big>URI Parameters</big></em></strong></p>
-
 {% for param in method.allUriParameters -%}
-<p>
-  <strong>{{ param.displayName }}</strong></br>
-  {{ param.description }}
-</p>
-
-<table>
-  <thead>
-    <th>Property</th>
-    <th style="width: 99%">Value</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>required</em></td>
-      <td>{{ param.required }}</td>
-    </tr>
-    <tr>
-      <td><em>type</em></td>
-      <td>{{ param.type }}</td>
-    </tr>
-    {% if param.enum -%}
-    {%- set comma = joiner() -%}
-    <tr>
-      <td><em>oneOf</em></td>
-      <td>{% for value in param.enum %}{{ comma() }} {{ value }}{% endfor %}</td>
-    </tr>
-    {% endif -%}
-    {% if param.examples -%}
-    {%- set comma = joiner() -%}
-    <tr>
-      <td><em>examples</em></td>
-      <td>{% for example in param.examples %}{{ comma() }}<code>{{ example.value }}</code>{% endfor %}</td>
-    </tr>
-    {% endif -%}
-  </tbody>
-</table>
-
+{% include "./parameter-table.nunjucks" %}
 {% endfor %}
 {% endif %}
 
 {% if (method.headers | length) != 0 %}
 <br/>
 <p><strong><em><big>Header Parameters</big></em></strong></p>
-
-{% for header in method.headers %}
-<p>
-  <strong>{{ header.key }}</strong><br/>
-  {{ header.description }}
-</p>
-
-<table>
-  <thead>
-    <th>Property</th>
-    <th style="width: 99%;">Value</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>required</em></td>
-      <td>{{ header.required }}</td>
-    </tr>
-    <tr>
-      <td><em>type</em></td>
-      <td>{{ header.type }}</td>
-    </tr>
-    {% if header.enum -%}
-    {%- set comma = joiner() -%}
-    <tr>
-      <td><em>oneOf</em></td>
-      <td>{% for value in header.enum %}{{ comma() }} {{ value }}{% endfor %}</td>
-    </tr>
-    {%- endif %}
-    {% if header.examples -%}
-    {%- set comma = joiner() -%}
-    <tr>
-      <td><em>examples</em></td>
-      <td>{% for example in header.examples %}{{ comma() }}<code>{{ example.value }}</code>{% endfor %}</td>
-    </tr>
-    {% endif %}
-  </tbody>
-</table>
-
+{% for param in method.headers %}
+{% include "parameter-table.nunjucks" %}
 {% endfor %}
 {% endif %}
 
 {% if (method.queryParameters | length) != 0 %}
 <br/>
 <p><strong><em><big>Query Parameters</big></em></strong></p>
-
 {% for param in method.queryParameters %}
-<p>
-  <strong>{{ param.key }}</strong><br/>
-  {{ param.description }}
-</p>
-
-<table>
-  <thead>
-    <th>Property</th>
-    <th style="width: 99%;">Value</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td><em>required</em></td>
-      <td>{{ param.required }}</td>
-    </tr>
-    <tr>
-      <td><em>type</em></td>
-      <td>{{ param.type }}</td>
-    </tr>
-    {% if param.enum -%}
-    {%- set comma = joiner() -%}
-    <tr>
-      <td><em>oneOf</em></td>
-      <td>{% for value in param.enum %}{{ comma() }} {{ value }}{% endfor %}</td>
-    </tr>
-    {% endif -%}
-    {% if param.examples -%}
-    {%- set comma = joiner() -%}
-    <tr>
-      <td><em>examples</em></td>
-      <td>{% for example in param.examples %}{{ comma() }}<code>{{ example.value }}</code>{% endfor %}</td>
-    </tr>
-    {% endif -%}
-  </tbody>
-</table>
-
+{% include "parameter-table.nunjucks" %}
 {% endfor %}
 {% endif %}
 
 {% if getResponseHeaders(method) | length != 0 %}
 <br/>
 <p><strong><em><big>Response Headers</big></em></strong></p>
-{% for header in getResponseHeaders(method) -%}
-  <p>
-    <strong>{{ header.key }}</strong><br/>
-    {{ header.description }}
-  </p>
-  <table>
-    <thead>
-      <th>Property</th>
-      <th style="width: 99%;">Value</th>
-    </thead>
-    <tbody>
-      <tr>
-        <td><em>type</em></td>
-        <td>{{ header.type }}</td>
-      </tr>
-      {% if header.enum -%}
-      {%- set comma = joiner() -%}
-      <tr>
-        <td><em>oneOf</em></td>
-        <td>{% for value in header.enum %}{{ comma() }} {{ value }}{% endfor %}</td>
-      </tr>
-      {% endif -%}
-      {% if header.examples -%}
-      {%- set comma = joiner() -%}
-      <tr>
-        <td><em>examples</em></td>
-        <td>{% for example in header.examples %}{{ comma() }}<code>{{ example.value }}</code>{% endfor %}</td>
-      </tr>
-      {% endif -%}
-    </tbody>
-  </table>
+{% for param in getResponseHeaders(method) -%}
+{% include "parameter-table.nunjucks" %}
 {%- endfor %}
 {% endif %}
 
@@ -258,7 +121,6 @@
     <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY</h3></blockquote>
     {% for body in response.body %}
       {% for example in body.examples %}
-      {# Maybe put application/json in the tabs at the top and show all responses if a flag is set #}
 <div class="languagebox {{ getLanguage(body.key) }}">
 <pre><code>{{ example.value }}</code></pre>
 </div>

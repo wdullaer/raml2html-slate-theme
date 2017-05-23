@@ -1,0 +1,35 @@
+<p>
+  <strong>{{ param.key }}</strong></br>
+  {{ param.description }}
+</p>
+
+<table>
+  <thead>
+    <th>Property</th>
+    <th style="width: 99%">Value</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>required</em></td>
+      <td>{{ param.required }}</td>
+    </tr>
+    <tr>
+      <td><em>type</em></td>
+      <td>{{ param.type }}</td>
+    </tr>
+    {% if param.enum -%}
+    {%- set comma = joiner() -%}
+    <tr>
+      <td><em>oneOf</em></td>
+      <td>{% for value in param.enum %}{{ comma() }} {{ value }}{% endfor %}</td>
+    </tr>
+    {% endif -%}
+    {% if param.examples -%}
+    {%- set comma = joiner() -%}
+    <tr>
+      <td><em>examples</em></td>
+      <td>{% for example in param.examples %}{{ comma() }}<code>{{ example.value }}</code>{% endfor %}</td>
+    </tr>
+    {% endif -%}
+  </tbody>
+</table>
