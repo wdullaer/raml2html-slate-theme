@@ -54,16 +54,27 @@ describe('configureTheme()', () => {
     expect(configureTheme()).to.have.a.property('colorThemePath').to.equal(DEFAULT_COLOR_THEME)
   })
 
+  it('should default languageTabs to DEFAULT_LANGUAGE_TABS', () => {
+    const DEFAULT_LANGUAGE_TABS = testModule.__get__('DEFAULT_LANGUAGE_TABS')
+    expect(configureTheme()).to.have.a.property('languageTabs').to.equal(DEFAULT_LANGUAGE_TABS)
+  })
+
   it('should set logoPath to args["logo"]', () => {
     const input = '/foo/bar.png'
     const args = {logo: input}
-    expect(configureTheme(args)).to.have.a.property('logoPath').to.equal(input)
+    expect(configureTheme(args)).to.have.a.property('logoPath').that.equals(input)
   })
 
-  it('should set colorThemePath path to args["color-theme"]', () => {
+  it('should set colorThemePath to args["color-theme"]', () => {
     const input = '/foo/styl.styl'
     const args = {'color-theme': input}
-    expect(configureTheme(args)).to.have.a.property('colorThemePath').to.equal(input)
+    expect(configureTheme(args)).to.have.a.property('colorThemePath').that.equals(input)
+  })
+
+  it('should set languageTabs to args["language-tabs"]', () => {
+    const input = ['foo']
+    const args = {'language-tabs': input}
+    expect(configureTheme(args)).to.have.a.property('languageTabs').that.equals(input)
   })
 
   it('should write a default theme to stdout and exit when generate-color-theme is set', (done) => {
@@ -86,61 +97,6 @@ describe('configureTheme()', () => {
     })
     const args = {'generate-color-theme': true}
     configureTheme(args)
-  })
-})
-
-describe('readFile()', () => {
-  let readFile = testModule.__get__('readFile')
-
-  it('should return a Promise', () => {
-    expect(readFile('/foo')).to.be.an.instanceOf(Promise)
-  })
-
-  it('should reject if the file cannot be read', () => {
-    return expect(readFile('/foo')).to.be.rejected
-  })
-
-  it('should resolve if the file exists', () => {
-    return expect(readFile('../index.js')).to.be.resolved
-  })
-})
-
-describe('getMimeType()', () => {
-  let getMimeType = testModule.__get__('getMimeType')
-  it('should return `image/png` for an unknown extension', () => {
-    expect(getMimeType('foo')).to.equal('image/png')
-  })
-
-  it('should return `image/jpeg` for a .jpg extension', () => {
-    expect(getMimeType('foo.jpg')).to.equal('image/jpeg')
-  })
-
-  it('should return `image/jpeg` for a .jpeg extension', () => {
-    expect(getMimeType('foo.jpeg')).to.equal('image/jpeg')
-  })
-
-  it('should return `image/png` for a .png extension', () => {
-    expect(getMimeType('foo.png')).to.equal('image/png')
-  })
-
-  it('should return `image/gif` for a .gif extension', () => {
-    expect(getMimeType('foo.gif')).to.equal('image/gif')
-  })
-
-  it('should return `image/bmp` for a .bmp extension', () => {
-    expect(getMimeType('foo.bmp')).to.equal('image/bmp')
-  })
-
-  it('should return `image/tiff` for a .tiff extension', () => {
-    expect(getMimeType('foo.tiff')).to.equal('image/tiff')
-  })
-
-  it('should return `image/svg+xml` for a .svg extension', () => {
-    expect(getMimeType('foo.svg')).to.equal('image/svg+xml')
-  })
-
-  it('should be case insensitive', () => {
-    expect(getMimeType('foo.JPEG')).to.equal('image/jpeg')
   })
 })
 
@@ -248,7 +204,7 @@ describe('processRamlObj()', () => {
     const config = {
       logoPath: testModule.__get__('DEFAULT_LOGO'),
       colorThemePath: testModule.__get__('DEFAULT_COLOR_THEME'),
-      languageTabs: ['json']
+      languageTabs: ['json', 'xml']
     }
 
     return expect(processRamlObj(ramlObj, config)).to.eventually.be.a('string')
@@ -259,5 +215,94 @@ describe('processRamlObj()', () => {
     const config = {}
 
     return expect(processRamlObj(ramlObj, config)).to.be.rejected
+  })
+})
+
+describe('validateLanguageTabs()', () => {
+  let validateLanguageTabs = testModule.__get__('validateLanguageTabs')
+  let restore
+
+  beforeEach(() => {
+    restore = () => {}
+  })
+
+  afterEach(() => {
+    restore()
+  })
+
+  it('should throw an error if the input is an object', () => {
+    const input = {
+      foo: 'bar'
+    }
+    const testFunction = validateLanguageTabs.bind(null, input)
+
+    expect(testFunction).to.throw(TypeError)
+  })
+
+  it('should throw an error if the input is a number', () => {
+    const input = 1
+    const testFunction = validateLanguageTabs.bind(null, input)
+
+    expect(testFunction).to.throw(TypeError)
+  })
+
+  it('should throw an error if the input cannot be serialized to json', () => {
+    const input = 'foo'
+    const testFunction = validateLanguageTabs.bind(null, input)
+
+    expect(testFunction).to.throw(TypeError)
+  })
+
+  it('should only handle SyntaxErrors thrown by JSON.parse', () => {
+    const stub = () => {
+      throw new RangeError('test error')
+    }
+    restore = testModule.__set__('JSON.parse', stub)
+    const input = 'foo'
+    const testFunction = validateLanguageTabs.bind(null, input)
+
+    expect(testFunction).to.throw(RangeError, 'test erro')
+  })
+
+  it('should throw an error if the input array contains an object', () => {
+    const input = ['foo', {bar: 'baz'}]
+    const testFunction = validateLanguageTabs.bind(null, input)
+
+    expect(testFunction).to.throw(TypeError)
+  })
+
+  it('should throw an error if the input contains a number', () => {
+    const input = [1]
+    const testFunction = validateLanguageTabs.bind(null, input)
+
+    expect(testFunction).to.throw(TypeError)
+  })
+
+  it('should return a parsed array of strings if the input is valid', () => {
+    const input = '["xml"]'
+    const expected = ['xml']
+
+    expect(validateLanguageTabs(input)).to.deep.equal(expected)
+  })
+
+  it('should return an empty array if the input is an empty string', () => {
+    const input = ''
+    const expected = []
+
+    expect(validateLanguageTabs(input)).to.deep.equal(expected)
+  })
+
+  it('should return a parsed array if the input is a valid array', () => {
+    const input = ['xml']
+    const expected = ['xml']
+
+    expect(validateLanguageTabs(input)).to.deep.equal(expected)
+  })
+
+  it('should return an empty array if the input in an empty array', () => {
+    const input = []
+    const expected = []
+
+    expect(validateLanguageTabs(input)).to.deep.equal(expected)
   })
 })
