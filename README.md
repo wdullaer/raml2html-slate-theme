@@ -5,7 +5,7 @@
 This package provides a theme for [raml2html](https://github.com/raml2html/raml2html). It is meant to render nice looking documentation for your REST API, based on a RAML file.
 The theme is is inspired by [slate](https://github.com/lord/slate).
 
-The theme is usable, but the templates might still change based upon feedback. Not all RAML features are currently supported.
+The theme is usable, but the templates might still change based upon feedback. Most RAML features are supported.
 
 ![Example](https://raw.github.com/wdullaer/raml2slate/gh-pages/example-image.png)
 
@@ -21,7 +21,8 @@ In javascript:
 const raml2html = require('raml2html');
 const options = {
   'logo': '/path/to/my/logo.png',
-  'color-theme': 'path/to/my/color-theme.styl'
+  'color-theme': 'path/to/my/color-theme.styl',
+  'language-tabs': ['json', 'xml']
 }
 const slateConfig = raml2html.getConfigForTheme('raml2html-slate-theme', options);
 
@@ -45,11 +46,35 @@ raml2html \
 * *--logo* The path to a custom logo
 * *--color-theme* The path to a custom color-theme stylus file
 * *--generate-color-theme* Writes the default color them to stdout and exits. Ideal as a starting point for your own color scheme
+* *--language-tabs* Set an array of serialisation formats to be used for examples. anyOf: ['json', 'xml', 'sse']
+
+## FAQ
+
+### How do I get content in the right column?
+The theme will render all top level documentation entries as Markdown in seperate sections. In this markdown you can use exactly one `<hr/>` (or the markdown equivalent thereof). Everything above the `<hr/>` will be rendered in the middle column as usual. Everything below, will be pushed into the right column. This is useful to create documented code examples.
+
+This example:
+
+```md
+Here is some content that will render in the middle column
+1. Item 1
+2. Item 2
+---
+Here is some content that will render in the right column
+* foo
+* bar
+```
+
+Results in this output:
+
+![hr-example](https://raw.github.com/wdullaer/raml2slate/gh-pages/hr-example-image.png)
+
+> You should not use an `<hr/>` in a method description. It will currently mess up the layout. I am looking into an elegant way to allow text in the right column there as well.
 
 ## TODO
 * Add schema definitions to the template
 * Cover all RAML features
-* Make better use of the language tabs at the top
+* Allow text in right column for API method descriptions
 
 ## License
 
