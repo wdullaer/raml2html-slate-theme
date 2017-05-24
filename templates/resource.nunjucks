@@ -76,40 +76,41 @@
 
 <blockquote><h3 class="toc-ignore">CURL EXAMPLE</h3></blockquote>
 <div class="languagebox bash">
-  <pre><code>{{ getCurlStatement(method, resource) }}</code></pre>
+  <pre><code>{{ getCurlStatement(method, resource) | escape }}</code></pre>
 </div>
 
-{% if method.headers | length != 0 %}
+{% if ((method.headers | length != 0) and hasExamples(method.headers)) %}
 <blockquote><h3 class="toc-ignore">REQUEST HEADERS</h3></blockquote>
 <div class="languagebox">
   <pre><code>
     {%- for header in method.headers -%}
 {%- if header.examples -%}
-{{ header.key }}: {{ header.examples[0].value }}
+{{ header.key }}: {{ header.examples[0].value | escape }}
 {% endif -%}
     {%- endfor -%}
   </code></pre>
 </div>
 {% endif %}
 
-{% if method.body | length != 0%}
+{% if ((method.body | length != 0) and hasExamples(method.body)) %}
 <blockquote><h3 class="toc-ignore">REQUEST BODY</h3></blockquote>
 {% for body in method.body %}
   {% for example in body.examples %}
 <div class="languagebox {{ getLanguage(body.key) }}">
-<pre><code>{{ example.value }}</code></pre>
+<pre><code>{{ example.value | escape }}</code></pre>
 </div>
   {% endfor %}
 {% endfor %}
 {% endif %}
 
-{% if getResponseHeaders(method) | length != 0 %}
+{% set responseHeaders = getResponseHeaders(method) %}
+{% if ((responseHeaders | length != 0) and hasExamples(responseHeaders)) %}
 <blockquote><h3 class="toc-ignore">RESPONSE HEADERS</h3></blockquote>
 <div class="languagebox">
 <pre><code>
-  {%- for header in getResponseHeaders(method) -%}
+  {%- for header in responseHeaders -%}
 {%- if header.examples -%}
-{{ header.key }}: {{ header.examples[0].value }}
+{{ header.key }}: {{ header.examples[0].value | escape }}
 {% endif -%}
   {%- endfor -%}
 </code></pre>
@@ -117,12 +118,12 @@
 {% endif %}
 
 {% for response in method.responses %}
-  {% if (response.code == "200" or response.code == "201")%}
+  {% if ((response.code == "200" or response.code == "201") and hasExamples(response.body)) %}
     <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY</h3></blockquote>
     {% for body in response.body %}
       {% for example in body.examples %}
 <div class="languagebox {{ getLanguage(body.key) }}">
-<pre><code>{{ example.value }}</code></pre>
+<pre><code>{{ example.value | escape }}</code></pre>
 </div>
       {% endfor %}
     {% endfor %}

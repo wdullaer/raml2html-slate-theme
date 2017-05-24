@@ -351,3 +351,68 @@ describe('getSafeId', () => {
     expect(getSafeId(input)).to.equal('foo-bar')
   })
 })
+
+describe('hasExamples()', () => {
+  const hasExamples = testModule.__get__('hasExamples')
+
+  it('should return a boolean', () => {
+    expect(hasExamples()).to.be.a('boolean')
+  })
+
+  it('should return false if the input is not an array (undefined)', () => {
+    const input = undefined
+    expect(hasExamples(input)).to.be.false
+  })
+
+  it('should return false if the input is not an array (null)', () => {
+    const input = null
+    expect(hasExamples(input)).to.be.false
+  })
+
+  it('should return false if the input is not an array (object)', () => {
+    const input = {foo: 'bar'}
+    expect(hasExamples(input)).to.be.false
+  })
+
+  it('should return false if none of the elements have an examples property', () => {
+    const input = [
+      {foo: 'bar'},
+      {bar: 'baz'}
+    ]
+    expect(hasExamples(input)).to.be.false
+  })
+
+  it('should return false if none of the elements have an examples property with a non zero length', () => {
+    const input = [
+      {foo: 'bar'},
+      {examples: 1}
+    ]
+    expect(hasExamples(input)).to.be.false
+  })
+
+  it('should return false if all elements have a property examples with a zero length', () => {
+    const input = [{examples: []}]
+    expect(hasExamples(input)).to.be.false
+  })
+
+  it('should return true if the only element has an attribute examples with a nonzero length', () => {
+    const input = [{examples: [1]}]
+    expect(hasExamples(input)).to.be.true
+  })
+
+  it('should return true if all elements have an attribute examples with a nonzero length', () => {
+    const input = [
+      {examples: [1]},
+      {foo: 'bar', examples: [2]}
+    ]
+    expect(hasExamples(input)).to.be.true
+  })
+
+  it('should return true if one element has an attribute examples with a nonzero length', () => {
+    const input = [
+      {examples: [1]},
+      {examples: []}
+    ]
+    expect(hasExamples(input)).to.be.true
+  })
+})

@@ -17,7 +17,8 @@ const {
   getCurlStatement,
   getLanguage,
   getResponseHeaders,
-  getSafeId
+  getSafeId,
+  hasExamples
 } = require('./lib/stylus-globals.js')
 
 let minimize = new Minimize({quotes: true})
@@ -99,6 +100,7 @@ function renderHtml (basePath, ramlObj) {
     .addGlobal('getLanguage', getLanguage)
     .addGlobal('getResponseHeaders', getResponseHeaders)
     .addGlobal('getCurlStatement', getCurlStatement.bind(null, ramlObj.baseUri))
+    .addGlobal('hasExamples', hasExamples)
   markdown.register(env, marked)
   return env.render(template, ramlObj)
 }
