@@ -7,7 +7,7 @@ The theme is is inspired by [slate](https://github.com/lord/slate).
 
 The theme is usable, but the templates might still change based upon feedback. Most RAML features are supported.
 
-![Example](https://raw.github.com/wdullaer/raml2slate/gh-pages/example-image.png)
+![Example](https://raw.github.com/wdullaer/raml2html-slate-theme/gh-pages/example-image.png)
 
 ## Installation
 
@@ -67,7 +67,7 @@ Here is some content that will render in the right column
 
 Results in this output:
 
-![hr-example](https://raw.github.com/wdullaer/raml2slate/gh-pages/hr-example-image.png)
+![hr-example](https://raw.github.com/wdullaer/raml2html-slate-theme/gh-pages/hr-example-image.png)
 
 > You should not use an `<hr/>` in a method description. It will currently mess up the layout. I am looking into an elegant way to allow text in the right column there as well.
 
