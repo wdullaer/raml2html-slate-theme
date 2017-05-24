@@ -17,6 +17,8 @@ const getResponseHeaders = require('./lib/stylus-globals.js').getResponseHeaders
 const getSafeId = require('./lib/stylus-globals.js').getSafeId
 const hasExamples = require('./lib/stylus-globals.js').hasExamples
 
+require('./lib/array-includes-polyfil.js')()
+
 let minimize = new Minimize({quotes: true})
 const templatesPath = path.join(__dirname, 'templates')
 const DEFAULT_LOGO = path.join(templatesPath, 'images', 'logo.png')
