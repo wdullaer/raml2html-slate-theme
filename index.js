@@ -7,19 +7,15 @@ const Minimize = require('minimize')
 const nunjucks = require('nunjucks')
 const stylus = require('stylus')
 
-const {
-  getMimeType,
-  readFile
-} = require('./lib/utils.js')
+const getMimeType = require('./lib/utils.js').getMimeType
+const readFile = require('./lib/utils.js').readFile
 const logAndExit = require('./lib/utils.js').logAndExit.bind(null, 'raml2html')
 
-const {
-  getCurlStatement,
-  getLanguage,
-  getResponseHeaders,
-  getSafeId,
-  hasExamples
-} = require('./lib/stylus-globals.js')
+const getCurlStatement = require('./lib/stylus-globals.js').getCurlStatement
+const getLanguage = require('./lib/stylus-globals.js').getLanguage
+const getResponseHeaders = require('./lib/stylus-globals.js').getResponseHeaders
+const getSafeId = require('./lib/stylus-globals.js').getSafeId
+const hasExamples = require('./lib/stylus-globals.js').hasExamples
 
 let minimize = new Minimize({quotes: true})
 const templatesPath = path.join(__dirname, 'templates')
