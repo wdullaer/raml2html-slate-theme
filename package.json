@@ -8,7 +8,7 @@
     "url": "https://wdullaer.com"
   },
   "bugs": {
-    "url": "https://github.com/raml2html/slate-theme/issues"
+    "url": "https://github.com/wdullaer/raml2html-slate-theme/issues"
   },
   "dependencies": {
     "marked": "^0.3.6",
@@ -31,7 +31,7 @@
     "raml2html": "^6.1.1",
     "rewire": "^2.5.2"
   },
-  "homepage": "https://github.com/raml2html/slate-theme",
+  "homepage": "https://github.com/wdullaer/raml2html-slate-theme",
   "keywords": [
     "RAML", "raml2html-theme"
   ],
@@ -39,7 +39,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/raml2html/slate-theme.git"
+    "url": "git://github.com/wdullaer/raml2html-slate-theme.git"
   },
   "preferGlobal": true,
   "files": [
