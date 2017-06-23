@@ -13,27 +13,28 @@
   "dependencies": {
     "marked": "^0.3.6",
     "minimize": "^2.1.0",
-    "nunjucks": "^3.0.0",
+    "nunjucks": "^3.0.1",
     "nunjucks-markdown": "^2.0.1",
     "stylus": "^0.54.5"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "eslint": "^3.19.0",
+    "chai": "^4.0.2",
+    "chai-as-promised": "^7.0.0",
+    "eslint": "^4.0.0",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "~2.2.0",
+    "eslint-plugin-import": "~2.6.0",
     "eslint-plugin-node": "~5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "raml2html": "^6.1.1",
+    "mocha": "^3.4.2",
+    "raml2html": "^6.3.0",
     "rewire": "^2.5.2"
   },
   "homepage": "https://github.com/wdullaer/raml2html-slate-theme",
   "keywords": [
-    "RAML", "raml2html-theme"
+    "RAML",
+    "raml2html-theme"
   ],
   "license": "MIT",
   "main": "index.js",
