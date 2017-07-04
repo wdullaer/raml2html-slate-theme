@@ -7,17 +7,17 @@ const Minimize = require('minimize')
 const nunjucks = require('nunjucks')
 const stylus = require('stylus')
 
-const getMimeType = require('./lib/utils.js').getMimeType
-const readFile = require('./lib/utils.js').readFile
-const logAndExit = require('./lib/utils.js').logAndExit.bind(null, 'raml2html')
+const getMimeType = require(path.join(__dirname, 'lib/utils.js')).getMimeType
+const readFile = require(path.join(__dirname, 'lib/utils.js')).readFile
+const logAndExit = require(path.join(__dirname, 'lib/utils.js')).logAndExit.bind(null, 'raml2html')
 
-const getCurlStatement = require('./lib/stylus-globals.js').getCurlStatement
-const getLanguage = require('./lib/stylus-globals.js').getLanguage
-const getResponseHeaders = require('./lib/stylus-globals.js').getResponseHeaders
-const getSafeId = require('./lib/stylus-globals.js').getSafeId
-const hasExamples = require('./lib/stylus-globals.js').hasExamples
+const getCurlStatement = require(path.join(__dirname, 'lib/stylus-globals.js')).getCurlStatement
+const getLanguage = require(path.join(__dirname, 'lib/stylus-globals.js')).getLanguage
+const getResponseHeaders = require(path.join(__dirname, 'lib/stylus-globals.js')).getResponseHeaders
+const getSafeId = require(path.join(__dirname, 'lib/stylus-globals.js')).getSafeId
+const hasExamples = require(path.join(__dirname, 'lib/stylus-globals.js')).hasExamples
 
-require('./lib/array-includes-polyfil.js')()
+require(path.join(__dirname, 'lib/array-includes-polyfil.js'))()
 
 let minimize = new Minimize({quotes: true})
 const templatesPath = path.join(__dirname, 'templates')
