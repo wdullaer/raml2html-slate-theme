@@ -1,9 +1,10 @@
 'use strict'
 const expect = require('chai').expect
+const path = require('path')
 const rewire = require('rewire')
 
-const stylusGlobals = require('../lib/stylus-globals.js')
-const testModule = rewire('../lib/stylus-globals.js')
+const stylusGlobals = require(path.join(__dirname, '../lib/stylus-globals.js'))
+const testModule = rewire(path.join(__dirname, '../lib/stylus-globals.js'))
 
 describe('Stylus globals exports', () => {
   it('should export an object', () => {

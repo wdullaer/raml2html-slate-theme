@@ -1,10 +1,11 @@
 'use strict'
 const expect = require('chai').expect
 const fs = require('fs')
+const path = require('path')
 const rewire = require('rewire')
-const themeModule = require('../index.js')
+const themeModule = require(path.join(__dirname, '../index.js'))
 
-const testModule = rewire('../index.js')
+const testModule = rewire(path.join(__dirname, '../index.js'))
 
 describe('Module exports', () => {
   it('should export a config function', () => {
