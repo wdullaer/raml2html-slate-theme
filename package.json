@@ -45,6 +45,7 @@
   "preferGlobal": true,
   "files": [
     "index.js",
+    "lib",
     "templates"
   ],
   "engines": {
