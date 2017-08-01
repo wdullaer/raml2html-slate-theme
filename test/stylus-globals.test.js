@@ -418,11 +418,11 @@ describe('hasExamples()', () => {
   })
 })
 
-describe('getSchemaDefinitions()', () => {
-  const getSchemaDefinitions = testModule.__get__('getSchemaDefinitions')
+describe('getTypeDefinitions()', () => {
+  const getTypeDefinitions = testModule.__get__('getTypeDefinitions')
 
   it('should return an empty array if the context is empty', () => {
-    const testFn = getSchemaDefinitions.bind({})
+    const testFn = getTypeDefinitions.bind({})
 
     expect(testFn()).to.be.an('array').that.is.empty
   })
@@ -431,7 +431,7 @@ describe('getSchemaDefinitions()', () => {
     const context = {
       ctx: {}
     }
-    const testFn = getSchemaDefinitions.bind(context)
+    const testFn = getTypeDefinitions.bind(context)
 
     expect(testFn()).to.be.an('array').that.is.empty
   })
@@ -445,7 +445,7 @@ describe('getSchemaDefinitions()', () => {
         ]
       }
     }
-    const testFn = getSchemaDefinitions.bind(context)
+    const testFn = getTypeDefinitions.bind(context)
     const expectedOutput = [
       {content: 'bar', type: 'json'},
       {content: 'baz', type: 'json'}
@@ -463,7 +463,7 @@ describe('getSchemaDefinitions()', () => {
         }
       }
     }
-    const testFn = getSchemaDefinitions.bind(context)
+    const testFn = getTypeDefinitions.bind(context)
     const expectedOutput = [{key: 'bar'}, {key: 'baz'}]
 
     expect(testFn()).to.be.an('array').that.deep.equals(expectedOutput)
@@ -479,7 +479,7 @@ describe('getSchemaDefinitions()', () => {
         }
       }
     }
-    const testFn = getSchemaDefinitions.bind(context)
+    const testFn = getTypeDefinitions.bind(context)
     const expectedOutput = [{key: 'bar'}, {key: 'baz'}]
 
     expect(testFn()).to.be.an('array').that.deep.equals(expectedOutput)
@@ -497,7 +497,7 @@ describe('getSchemaDefinitions()', () => {
         }
       }
     }
-    const testFn = getSchemaDefinitions.bind(context)
+    const testFn = getTypeDefinitions.bind(context)
     const expectedOutput = '{\n  "name": "myType",\n  "description": "description"\n}'
 
     expect(testFn()[0]).to.have.property('content', expectedOutput)
@@ -515,7 +515,7 @@ describe('getSchemaDefinitions()', () => {
         }]
       }
     }
-    const testFn = getSchemaDefinitions.bind(context)
+    const testFn = getTypeDefinitions.bind(context)
     const expectedOutput = '{\n  "name": "myType",\n  "description": "description"\n}'
 
     expect(testFn()[0]).to.have.property('content', expectedOutput)
@@ -557,19 +557,19 @@ describe('typeToJson()', () => {
   })
 })
 
-describe('hasSchema()', () => {
-  const hasSchema = testModule.__get__('hasSchema')
+describe('hasType()', () => {
+  const hasType = testModule.__get__('hasType')
 
   it('should return true if the input has a schema property', () => {
     const input = {schema: 'foo'}
 
-    expect(hasSchema(input)).to.be.true
+    expect(hasType(input)).to.be.true
   })
 
   it('should return true if the input has a type property', () => {
     const input = {type: 'foo'}
 
-    expect(hasSchema(input)).to.be.true
+    expect(hasType(input)).to.be.true
   })
 
   it('should return true if the input has both type and schema properties', () => {
@@ -578,52 +578,52 @@ describe('hasSchema()', () => {
       schema: 'bar'
     }
 
-    expect(hasSchema(input)).to.be.true
+    expect(hasType(input)).to.be.true
   })
 
   it('should return false if the input has neither type nor schema as a property', () => {
     const input = {foo: 'bar'}
 
-    expect(hasSchema(input)).to.be.false
+    expect(hasType(input)).to.be.false
   })
 
   it('should return false if the input is undefined', () => {
-    expect(hasSchema()).to.be.false
+    expect(hasType()).to.be.false
   })
 
   it('should return false if the input is a string', () => {
     const input = 'foo'
 
-    expect(hasSchema(input)).to.be.false
+    expect(hasType(input)).to.be.false
   })
 })
 
 describe('getschema()', () => {
-  const getSchema = testModule.__get__('getSchema')
+  const getType = testModule.__get__('getType')
 
   it('should return a string', () => {
-    expect(getSchema()).to.be.an('string')
+    expect(getType()).to.be.an('string')
   })
 
   it('should return an empty string if the input does not have a type or schema', () => {
     const input = {foo: 'bar'}
     const expectedOutput = ''
 
-    expect(getSchema(input)).to.equal(expectedOutput)
+    expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return the type property if it is a string', () => {
     const input = {type: 'foo'}
     const expectedOutput = 'foo'
 
-    expect(getSchema(input)).to.equal(expectedOutput)
+    expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return the schema property if it is a string', () => {
     const input = {schema: 'foo'}
     const expectedOutput = 'foo'
 
-    expect(getSchema(input)).to.equal(expectedOutput)
+    expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return the type if both schema and type are present', () => {
@@ -633,20 +633,20 @@ describe('getschema()', () => {
     }
     const expectedOutput = 'foo'
 
-    expect(getSchema(input)).to.equal(expectedOutput)
+    expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return the first element if the type is an array', () => {
     const input = {type: ['foo', 'bar']}
     const expectedOutput = 'foo'
 
-    expect(getSchema(input)).to.equal(expectedOutput)
+    expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return a string if the type is an object', () => {
     const input = {type: {foo: 'bar'}}
     const expectedOutput = '{\n  "foo": "bar"\n}'
 
-    expect(getSchema(input)).to.equal(expectedOutput)
+    expect(getType(input)).to.equal(expectedOutput)
   })
 })

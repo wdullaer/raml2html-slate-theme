@@ -1,0 +1,40 @@
+{% set typeDefinitions = getTypeDefinitions() %}
+{% if typeDefinitions | length != 0 %}
+{{ typeDefinitions | dump }}
+<h1 id="types">Types</h1>
+{% for type in typeDefinitions %}
+<div class="set">
+
+  <div class="set-description">
+    <h2 id="{{ getSafeId('type-' + type.displayName) }}">{{ type.displayName }}</h2>
+    {% markdown -%}
+      {{ type.description }}
+    {%- endmarkdown %}
+
+    {% if type.properties | length != 0 %}
+    <br/>
+    <p><strong><em><big>Properties</big></em></strong></p>
+    {% for param in type.properties -%}
+    {% include "./parameter-table.nunjucks" %}
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="set-examples">
+    <blockquote><h3 class="toc-ignore">TYPE DEFINITION</h3></blockquote>
+    <div class="languagebox">
+      <pre><code>{{ type.content | escape }}</code></pre>
+    </div>
+
+    {% if type.examples %}
+    <blockquote><h3 class="toc-ignore">TYPE EXAMPLE</h3></blockquote>
+    <div class="languagebox">
+      <pre><code>{{ type.examples[0].value | escape}}</code></pre>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+<hr />
+{% endfor %}
+{% endif %}

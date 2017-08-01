@@ -23,7 +23,7 @@
 </div>
 {% endfor %}
 
-{% include "./schema.nunjucks" %}
+{% include "./types.nunjucks" %}
 
 {% for resource in resources %}
 {% if resource.displayName %}

@@ -16,9 +16,9 @@ const getLanguage = require(path.join(__dirname, 'lib/stylus-globals.js')).getLa
 const getResponseHeaders = require(path.join(__dirname, 'lib/stylus-globals.js')).getResponseHeaders
 const getSafeId = require(path.join(__dirname, 'lib/stylus-globals.js')).getSafeId
 const hasExamples = require(path.join(__dirname, 'lib/stylus-globals.js')).hasExamples
-const getSchemaDefinitions = require(path.join(__dirname, 'lib/stylus-globals.js')).getSchemaDefinitions
-const hasSchema = require(path.join(__dirname, 'lib/stylus-globals.js')).hasSchema
-const getSchema = require(path.join(__dirname, 'lib/stylus-globals.js')).getSchema
+const getTypeDefinitions = require(path.join(__dirname, 'lib/stylus-globals.js')).getTypeDefinitions
+const hasType = require(path.join(__dirname, 'lib/stylus-globals.js')).hasType
+const getType = require(path.join(__dirname, 'lib/stylus-globals.js')).getType
 
 require(path.join(__dirname, 'lib/array-includes-polyfil.js'))()
 
@@ -102,9 +102,9 @@ function renderHtml (basePath, ramlObj) {
     .addGlobal('getResponseHeaders', getResponseHeaders)
     .addGlobal('getCurlStatement', getCurlStatement.bind(null, ramlObj.baseUri))
     .addGlobal('hasExamples', hasExamples)
-    .addGlobal('getSchemaDefinitions', getSchemaDefinitions)
-    .addGlobal('hasSchema', hasSchema)
-    .addGlobal('getSchema', getSchema)
+    .addGlobal('getTypeDefinitions', getTypeDefinitions)
+    .addGlobal('hasType', hasType)
+    .addGlobal('getType', getType)
   markdown.register(env, marked)
   return env.render(template, ramlObj)
 }
