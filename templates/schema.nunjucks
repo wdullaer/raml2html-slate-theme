@@ -1,0 +1,40 @@
+{% set schemaDefinitions = getSchemaDefinitions() %}
+{% if schemaDefinitions | length != 0 %}
+{{ schemaDefinitions | dump }}
+<h1 id="schemas">Schemas</h1>
+{% for schema in schemaDefinitions %}
+<div class="set">
+
+  <div class="set-description">
+    <h2 id="{{ getSafeId('schema-' + schema.displayName) }}">{{ schema.displayName }}</h2>
+    {% markdown -%}
+      {{ schema.description }}
+    {%- endmarkdown %}
+
+    {% if schema.properties | length != 0 %}
+    <br/>
+    <p><strong><em><big>Properties</big></em></strong></p>
+    {% for param in schema.properties -%}
+    {% include "./parameter-table.nunjucks" %}
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="set-examples">
+    <blockquote><h3 class="toc-ignore">SCHEMA DEFINITION</h3></blockquote>
+    <div class="languagebox">
+      <pre><code>{{ schema.content | escape }}</code></pre>
+    </div>
+
+    {% if schema.examples %}
+    <blockquote><h3 class="toc-ignore">SCHEMA EXAMPLE</h3></blockquote>
+    <div class="languagebox">
+      <pre><code>{{ schema.examples[0].value | escape}}</code></pre>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+<hr />
+{% endfor %}
+{% endif %}

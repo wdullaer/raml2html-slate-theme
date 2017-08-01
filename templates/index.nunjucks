@@ -23,6 +23,8 @@
 </div>
 {% endfor %}
 
+{% include "./schema.nunjucks" %}
+
 {% for resource in resources %}
 {% if resource.displayName %}
   <h1 id="{{ getSafeId(resource.displayName) }}">{{ resource.displayName }}</h1>

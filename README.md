@@ -72,7 +72,6 @@ Results in this output:
 > You should not use an `<hr/>` in a method description. It will currently mess up the layout. I am looking into an elegant way to allow text in the right column there as well.
 
 ## TODO
-* Add schema definitions to the template
 * Cover all RAML features
 * Allow text in right column for API method descriptions
 

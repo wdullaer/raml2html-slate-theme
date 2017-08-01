@@ -100,13 +100,13 @@
 <pre><code>{{ example.value | escape }}</code></pre>
 </div>
   {% endfor %}
-  {% if (body.schema) %}
+  {% if hasSchema(body) %}
+  <div class="languagebox {{ getLanguage(body.key) }}">
     <details>
       <summary>Schema</summary>
-      <div class="languagebox">
-        <pre><code>{{ body.schema }}</code></pre>
-      </div>
+      <pre><code>{{ getSchema(body) | escape }}</code></pre>
     </details>
+  </div>
   {% endif %}
 {% endfor %}
 {% endif %}
@@ -134,13 +134,13 @@
 <pre><code>{{ example.value | escape }}</code></pre>
 </div>
       {% endfor %}
-      {% if (body.schema) %}
+      {% if hasSchema(body) %}
+        <div class="languagebox {{ getLanguage(body.key) }}">
           <details>
             <summary>Schema</summary>
-            <div class="languagebox">
-              <pre><code>{{ body.schema }}</code></pre>
-            </div>
+            <pre><code>{{ getSchema(body) | escape }}</code></pre>
           </details>
+        </div>
       {% endif %}
     {% endfor %}
   {% endif %}
