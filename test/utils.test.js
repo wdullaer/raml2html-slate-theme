@@ -31,7 +31,9 @@ describe('readFile()', () => {
   let readFile = testModule.__get__('readFile')
 
   it('should return a Promise', () => {
-    expect(readFile('/foo')).to.be.an.instanceOf(Promise)
+    const prom = readFile('/foo')
+    prom.catch(() => {})
+    expect(prom).to.be.an.instanceOf(Promise)
   })
 
   it('should reject if the file cannot be read', () => {

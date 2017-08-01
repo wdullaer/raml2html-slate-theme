@@ -105,7 +105,9 @@ describe('loadLogo()', () => {
   let loadLogo = testModule.__get__('loadLogo')
 
   it('should return a Promise', () => {
-    expect(loadLogo()).to.be.an.instanceOf(Promise)
+    const prom = loadLogo()
+    prom.catch(() => {})
+    expect(prom).to.be.an.instanceOf(Promise)
   })
 
   it('should reject if the logo file does not exist', () => {
@@ -131,7 +133,9 @@ describe('renderCss()', () => {
   })
 
   it('should return a Promise', () => {
-    expect(renderCss('/foo')).to.be.an.instanceOf(Promise)
+    const prom = renderCss('/foo')
+    prom.catch(() => {})
+    expect(prom).to.be.an.instanceOf(Promise)
   })
 
   it('should reject if the theme cannot be read', () => {
@@ -196,8 +200,10 @@ describe('processRamlObj()', () => {
   it('should return a Promise', () => {
     const ramlObj = {foo: 'bar'}
     const config = {bar: 'baz'}
+    const prom = processRamlObj(ramlObj, config)
+    prom.catch(() => {})
 
-    expect(processRamlObj(ramlObj, config)).to.be.an.instanceOf(Promise)
+    expect(prom).to.be.an.instanceOf(Promise)
   })
 
   it('should resolve to a string', () => {
