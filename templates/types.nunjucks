@@ -1,6 +1,5 @@
 {% set typeDefinitions = getTypeDefinitions() %}
 {% if typeDefinitions | length != 0 %}
-{{ typeDefinitions | dump }}
 <h1 id="types">Types</h1>
 {% for type in typeDefinitions %}
 <div class="set">
