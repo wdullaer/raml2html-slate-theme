@@ -26,8 +26,8 @@
     "eslint-plugin-node": "~5.2.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "istanbul": "^0.4.5",
     "mocha": "^4.0.0",
+    "nyc": "^11.2.1",
     "raml2html": "^6.4.1",
     "rewire": "^2.5.2"
   },
@@ -55,10 +55,10 @@
     "extends": "standard"
   },
   "scripts": {
-    "coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha",
+    "coverage": "./node_modules/.bin/nyc ./node_modules/mocha/bin/mocha",
     "lint": "./node_modules/.bin/eslint lib test",
     "mocha": "./node_modules/.bin/mocha",
-    "prepublish": "npm run test",
+    "prepublishOnly": "npm run test",
     "test": "npm run lint && npm run coverage"
   }
 }

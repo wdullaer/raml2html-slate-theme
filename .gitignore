@@ -4,3 +4,4 @@ coverage
 npm-debug.log
 .directory
 .DS_Store
+.nyc_output/
