@@ -242,6 +242,25 @@ describe('getCurlStatement()', () => {
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password'
     expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
   })
+
+  it('should add digest authorization headers when the resource is secured by a digest auth scheme', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'digestAuth' } ]
+    }
+    const securitySchemes = {
+      digestAuth: {
+        name: 'digestAuth',
+        type: 'Digest Authentication'
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password --digest'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
 })
 
 describe('getLanguage()', () => {
