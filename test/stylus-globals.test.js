@@ -261,6 +261,64 @@ describe('getCurlStatement()', () => {
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password --digest'
     expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
   })
+
+  it('should add a header when the resource is secured by an x-other auth scheme with one header', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'customAuth' } ]
+    }
+    const securitySchemes = {
+      customAuth: {
+        name: 'customAuth',
+        type: 'x-custom',
+        describedBy: {
+          headers: [
+            {
+              name: 'X-API-Key',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
+
+  it('should add a header when the resource is secured by an x-other auth scheme with multipler headers', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'customAuth' } ]
+    }
+    const securitySchemes = {
+      customAuth: {
+        name: 'customAuth',
+        type: 'x-custom',
+        describedBy: {
+          headers: [
+            {
+              name: 'X-API-Key',
+              type: 'string'
+            },
+            {
+              name: 'X-Auth-Hash',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string" \\\n\t-H "X-Auth-Hash: string"'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
 })
 
 describe('getLanguage()', () => {
