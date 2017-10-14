@@ -223,6 +223,25 @@ describe('getCurlStatement()', () => {
     const expected = 'curl -X POST "https://example.com/foo/bar?version=1.0.0" \\\n\t-H "content-type: application/json" \\\n\t-d @request_body'
     expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
   })
+
+  it('should add basic authorization headers when the resource is secured by a basic auth scheme', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'basicAuth' } ]
+    }
+    const securitySchemes = {
+      basicAuth: {
+        name: 'basicAuth',
+        type: 'Basic Authentication'
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
 })
 
 describe('getLanguage()', () => {
