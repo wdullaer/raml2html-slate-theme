@@ -320,7 +320,7 @@ describe('getCurlStatement()', () => {
     expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
   })
 
-  it('should add an Authorization header when the resource is secured by an OAuth 2 auth scheme', () => {
+  it('should return 2 curl commands when the resource is secured by an OAuth 2 auth scheme', () => {
     const baseUri = 'https://example.com'
     const resource = {
       relativeUri: '/foo'
