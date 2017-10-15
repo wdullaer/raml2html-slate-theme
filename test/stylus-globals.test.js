@@ -354,6 +354,41 @@ describe('getCurlStatement()', () => {
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "Authorization: Bearer string"\n\n or \n\ncurl -X GET "https://example.com/foo?access_token=string"'
     expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
   })
+
+  it('should return a curl command for each security scheme defined for the method', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [
+        null,
+        { schemeName: 'digestAuth' },
+        { schemeName: 'customAuth' }
+      ]
+    }
+    const securitySchemes = {
+      digestAuth: {
+        name: 'digestAuth',
+        type: 'Digest Authentication'
+      },
+      customAuth: {
+        name: 'customAuth',
+        type: 'x-custom',
+        describedBy: {
+          headers: [
+            {
+              name: 'X-API-Key',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo"\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t--user username:password --digest\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
 })
 
 describe('getLanguage()', () => {
