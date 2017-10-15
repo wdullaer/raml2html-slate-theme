@@ -319,6 +319,41 @@ describe('getCurlStatement()', () => {
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string" \\\n\t-H "X-Auth-Hash: string"'
     expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
   })
+
+  it('should add an Authorization header when the resource is secured by an OAuth 2 auth scheme', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'oauth2' } ]
+    }
+    const securitySchemes = {
+      oauth2: {
+        name: 'oauth2',
+        type: 'OAuth 2.0',
+        describedBy: {
+          headers: [
+            {
+              name: 'Authorization',
+              description: 'Used to send a valid OAuth 2 access token. Do not use with the "access_token" query string parameter.',
+              type: 'string'
+            }
+          ],
+          queryParameters: [
+            {
+              name: 'access_token',
+              description: 'Used to send a valid OAuth 2 access token. Do not use together with the "Authorization" header',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "Authorization: Bearer string"\n\n or \n\ncurl -X GET "https://example.com/foo?access_token=string"'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
 })
 
 describe('getLanguage()', () => {
