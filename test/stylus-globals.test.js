@@ -263,7 +263,7 @@ describe('getCurlStatement()', () => {
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
-  it('should add the apropriate headers and query parameters when the resources is secured by a passthrough auth scheme', () =>{
+  it('should add the apropriate headers and query parameters when the resources is secured by a passthrough auth scheme', () => {
     const baseUri = 'https://example.com'
     const resource = {
       relativeUri: '/foo'
