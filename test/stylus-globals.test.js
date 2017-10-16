@@ -30,19 +30,20 @@ describe('Stylus globals exports', () => {
 
 describe('getCurlStatement()', () => {
   let getCurlStatement = testModule.__get__('getCurlStatement')
+  let securitySchemes
 
   it('should return a string', () => {
     const baseUri = ''
     const method = {method: 'get'}
     const resource = {}
-    expect(getCurlStatement(baseUri, method, resource)).to.be.a('string')
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.be.a('string')
   })
 
   it('should provide a default value for all components', () => {
     const method = {}
     const resource = {}
     const expected = 'curl -X GET "/"'
-    expect(getCurlStatement(undefined, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, undefined, method, resource)).to.equal(expected)
   })
 
   it('should use the given HTTP method in upper case', () => {
@@ -50,7 +51,7 @@ describe('getCurlStatement()', () => {
     const method = {method: 'head'}
     const resource = {}
     const expected = 'curl -X HEAD "/"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should use the given parentUrl', () => {
@@ -58,7 +59,7 @@ describe('getCurlStatement()', () => {
     const method = {}
     const resource = {parentUrl: '/foo'}
     const expected = 'curl -X GET "/foo/"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should use the given relativeUri', () => {
@@ -66,7 +67,7 @@ describe('getCurlStatement()', () => {
     const method = {}
     const resource = {relativeUri: '/bar/'}
     const expected = 'curl -X GET "/bar/"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should remove a trailing slash from the baseUri', () => {
@@ -76,7 +77,7 @@ describe('getCurlStatement()', () => {
       relativeUri: '/foo'
     }
     const expected = 'curl -X GET "https://example.com/foo"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a query parameter', () => {
@@ -89,7 +90,7 @@ describe('getCurlStatement()', () => {
     }
     const resource = {}
     const expected = 'curl -X GET "https://example.com/?version=1.0.0"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add multiple query parameters', () => {
@@ -108,7 +109,7 @@ describe('getCurlStatement()', () => {
     }
     const resource = {}
     const expected = 'curl -X GET "https://example.com/?version=1.0.0&filter=true"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should not add query paramters without examples', () => {
@@ -126,7 +127,7 @@ describe('getCurlStatement()', () => {
     }
     const resource = {}
     const expected = 'curl -X GET "https://example.com/?version=1.0.0"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a header parameter', () => {
@@ -139,7 +140,7 @@ describe('getCurlStatement()', () => {
     }
     const resource = {}
     const expected = 'curl -X GET "https://example.com/" \\\n\t-H "version: 1.0.0"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add multiple header parameters', () => {
@@ -158,7 +159,7 @@ describe('getCurlStatement()', () => {
     }
     const resource = {}
     const expected = 'curl -X GET "https://example.com/" \\\n\t-H "version: 1.0.0" \\\n\t-H "content-type: application/json"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should not add header parameters without examples', () => {
@@ -176,7 +177,7 @@ describe('getCurlStatement()', () => {
     }
     const resource = {}
     const expected = 'curl -X GET "https://example.com/" \\\n\t-H "version: 1.0.0"'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a payload if the method is patch', () => {
@@ -184,7 +185,7 @@ describe('getCurlStatement()', () => {
     const method = {method: 'patch'}
     const resource = {}
     const expected = 'curl -X PATCH "https://example.com/" \\\n\t-d @request_body'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a payload if the method is put', () => {
@@ -192,7 +193,7 @@ describe('getCurlStatement()', () => {
     const method = {method: 'put'}
     const resource = {}
     const expected = 'curl -X PUT "https://example.com/" \\\n\t-d @request_body'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a payload if the method is post', () => {
@@ -200,7 +201,7 @@ describe('getCurlStatement()', () => {
     const method = {method: 'post'}
     const resource = {}
     const expected = 'curl -X POST "https://example.com/" \\\n\t-d @request_body'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should work with all options combined', () => {
@@ -221,7 +222,7 @@ describe('getCurlStatement()', () => {
       relativeUri: '/bar'
     }
     const expected = 'curl -X POST "https://example.com/foo/bar?version=1.0.0" \\\n\t-H "content-type: application/json" \\\n\t-d @request_body'
-    expect(getCurlStatement(baseUri, method, resource)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add basic authorization headers when the resource is secured by a basic auth scheme', () => {
@@ -233,14 +234,14 @@ describe('getCurlStatement()', () => {
       method: 'get',
       securedBy: [ { schemeName: 'basicAuth' } ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       basicAuth: {
         name: 'basicAuth',
         type: 'Basic Authentication'
       }
     }
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add digest authorization headers when the resource is secured by a digest auth scheme', () => {
@@ -252,14 +253,14 @@ describe('getCurlStatement()', () => {
       method: 'get',
       securedBy: [ { schemeName: 'digestAuth' } ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       digestAuth: {
         name: 'digestAuth',
         type: 'Digest Authentication'
       }
     }
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password --digest'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add the apropriate headers and query parameters when the resources is secured by a passthrough auth scheme', () =>{
@@ -271,7 +272,7 @@ describe('getCurlStatement()', () => {
       method: 'get',
       securedBy: [ { schemeName: 'passThrough' } ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       passThrough: {
         name: 'passThrough',
         type: 'Pass Through',
@@ -292,7 +293,7 @@ describe('getCurlStatement()', () => {
       }
     }
     const expected = 'curl -X GET "https://example.com/foo?auth_token=string" \\\n\t-H "X-Auth: string"'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a header when the resource is secured by an x-other auth scheme with one header', () => {
@@ -304,7 +305,7 @@ describe('getCurlStatement()', () => {
       method: 'get',
       securedBy: [ { schemeName: 'customAuth' } ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       customAuth: {
         name: 'customAuth',
         type: 'x-custom',
@@ -319,7 +320,7 @@ describe('getCurlStatement()', () => {
       }
     }
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should add a header when the resource is secured by an x-other auth scheme with multipler headers', () => {
@@ -331,7 +332,7 @@ describe('getCurlStatement()', () => {
       method: 'get',
       securedBy: [ { schemeName: 'customAuth' } ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       customAuth: {
         name: 'customAuth',
         type: 'x-custom',
@@ -350,7 +351,7 @@ describe('getCurlStatement()', () => {
       }
     }
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string" \\\n\t-H "X-Auth-Hash: string"'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should return 2 curl commands when the resource is secured by an OAuth 2 auth scheme', () => {
@@ -362,7 +363,7 @@ describe('getCurlStatement()', () => {
       method: 'get',
       securedBy: [ { schemeName: 'oauth2' } ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       oauth2: {
         name: 'oauth2',
         type: 'OAuth 2.0',
@@ -385,7 +386,7 @@ describe('getCurlStatement()', () => {
       }
     }
     const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H "Authorization: Bearer string"\n\n or \n\ncurl -X GET "https://example.com/foo?access_token=string"'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
   it('should return a curl command for each security scheme defined for the method', () => {
@@ -401,7 +402,7 @@ describe('getCurlStatement()', () => {
         { schemeName: 'customAuth' }
       ]
     }
-    const securitySchemes = {
+    securitySchemes = {
       digestAuth: {
         name: 'digestAuth',
         type: 'Digest Authentication'
@@ -420,7 +421,7 @@ describe('getCurlStatement()', () => {
       }
     }
     const expected = 'curl -X GET "https://example.com/foo"\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t--user username:password --digest\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
-    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 })
 
