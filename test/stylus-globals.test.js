@@ -354,6 +354,47 @@ describe('getCurlStatement()', () => {
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
+  it('should return 2 curl commands when the resource is secured by an OAuth 1 auth scheme and a signature scheme is provided', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'oauth1' } ]
+    }
+    securitySchemes = {
+      oauth1: {
+        name: 'oauth1',
+        type: 'OAuth 1.0',
+        settings: {
+          signatures: ['PLAINTEXT']
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H \'Authorization: OAuth realm="API",\\\n\toauth_consumer_key="consumer_key",\\\n\toauth_token="token",\\\n\toauth_signature_method="PLAINTEXT",\\\n\toauth_signature="computed_signature",\\\n\toauth_timestamp="timestamp",\\\n\toauth_nonce="nonce",\\\n\toauth_version="1.0"\'\n\n or \n\ncurl -X GET "https://example.com/foo?oauth_consumer_key=consumer_key&oauth_token=token&oauth_signature_method=PLAINTEXT&oauth_signature=computed_signature&oauth_timestamp=timestamp&oauth_nonce=nonce&oauth_version=1.0"'
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
+  })
+
+  it('should return 2 curl commands when the resource is secured by an OAuth 1 auth scheme and a signature scheme is not provided', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'oauth1' } ]
+    }
+    securitySchemes = {
+      oauth1: {
+        name: 'oauth1',
+        type: 'OAuth 1.0'
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H \'Authorization: OAuth realm="API",\\\n\toauth_consumer_key="consumer_key",\\\n\toauth_token="token",\\\n\toauth_signature_method="HMAC-SHA1",\\\n\toauth_signature="computed_signature",\\\n\toauth_timestamp="timestamp",\\\n\toauth_nonce="nonce",\\\n\toauth_version="1.0"\'\n\n or \n\ncurl -X GET "https://example.com/foo?oauth_consumer_key=consumer_key&oauth_token=token&oauth_signature_method=HMAC-SHA1&oauth_signature=computed_signature&oauth_timestamp=timestamp&oauth_nonce=nonce&oauth_version=1.0"'
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
+  })
+
   it('should return 2 curl commands when the resource is secured by an OAuth 2 auth scheme', () => {
     const baseUri = 'https://example.com'
     const resource = {
