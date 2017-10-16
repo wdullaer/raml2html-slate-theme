@@ -262,6 +262,39 @@ describe('getCurlStatement()', () => {
     expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
   })
 
+  it('should add the apropriate headers and query parameters when the resources is secured by a passthrough auth scheme', () =>{
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [ { schemeName: 'passThrough' } ]
+    }
+    const securitySchemes = {
+      passThrough: {
+        name: 'passThrough',
+        type: 'Pass Through',
+        describedBy: {
+          headers: [
+            {
+              name: 'X-Auth',
+              type: 'string'
+            }
+          ],
+          queryParameters: [
+            {
+              name: 'auth_token',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo?auth_token=string" \\\n\t-H "X-Auth: string"'
+    expect(getCurlStatement(baseUri, method, resource, securitySchemes)).to.equal(expected)
+  })
+
   it('should add a header when the resource is secured by an x-other auth scheme with one header', () => {
     const baseUri = 'https://example.com'
     const resource = {
