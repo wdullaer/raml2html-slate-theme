@@ -259,7 +259,7 @@ describe('getCurlStatement()', () => {
         type: 'Digest Authentication'
       }
     }
-    const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password --digest'
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password \\\n\t--digest'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
@@ -391,7 +391,7 @@ describe('getCurlStatement()', () => {
         type: 'OAuth 1.0'
       }
     }
-    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H \'Authorization: OAuth realm="API",\\\n\toauth_consumer_key="consumer_key",\\\n\toauth_token="token",\\\n\toauth_signature_method="HMAC-SHA1",\\\n\toauth_signature="computed_signature",\\\n\toauth_timestamp="timestamp",\\\n\toauth_nonce="nonce",\\\n\toauth_version="1.0"\'\n\n or \n\ncurl -X GET "https://example.com/foo?oauth_consumer_key=consumer_key&oauth_token=token&oauth_signature_method=HMAC-SHA1&oauth_signature=computed_signature&oauth_timestamp=timestamp&oauth_nonce=nonce&oauth_version=1.0"'
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t-H \'Authorization: OAuth realm="API",\\\n\toauth_consumer_key="consumer_key",\\\n\toauth_token="token",\\\n\toauth_signature_method="RSA-SHA1",\\\n\toauth_signature="computed_signature",\\\n\toauth_timestamp="timestamp",\\\n\toauth_nonce="nonce",\\\n\toauth_version="1.0"\'\n\n or \n\ncurl -X GET "https://example.com/foo?oauth_consumer_key=consumer_key&oauth_token=token&oauth_signature_method=RSA-SHA1&oauth_signature=computed_signature&oauth_timestamp=timestamp&oauth_nonce=nonce&oauth_version=1.0"'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 
@@ -461,7 +461,7 @@ describe('getCurlStatement()', () => {
         }
       }
     }
-    const expected = 'curl -X GET "https://example.com/foo"\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t--user username:password --digest\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
+    const expected = 'curl -X GET "https://example.com/foo"\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t--user username:password \\\n\t--digest\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 })
