@@ -404,3 +404,171 @@ describe('buildCurlCommands', () => {
     ])
   })
 })
+
+describe('forMethod', () => {
+  let forMethod = testModule.__get__('forMethod')
+  let securitySchemes = {
+    digestAuth: {
+      name: 'digestAuth',
+      type: 'Digest Authentication'
+    },
+    customAuth: {
+      name: 'customAuth',
+      type: 'x-custom',
+      describedBy: {
+        headers: [
+          {
+            name: 'X-API-Key',
+            type: 'string'
+          }
+        ]
+      }
+    }
+  }
+  let methodParams, result
+
+  it('builds a secured curl command when the method is secured by a matching defined scheme', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [
+        { schemeName: 'customAuth' }
+      ]
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo" \\\n\t-H "X-API-Key: string"'
+    ])
+  })
+
+  it('builds multiple secured curl commands when the method is secured by multiple matching defined schemes', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [
+        { schemeName: 'customAuth' },
+        { schemeName: 'digestAuth' }
+      ]
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo" \\\n\t-H "X-API-Key: string"',
+      'curl -X GET "https://api.example.com/foo" \\\n\t--user username:password \\\n\t--digest'
+    ])
+  })
+
+  it('builds a single secured curl command when the method is secured by multiple schemes, but only one matches the defined schemes', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [
+        { schemeName: 'customAuth' },
+        { schemeName: 'notDefined' }
+      ]
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo" \\\n\t-H "X-API-Key: string"'
+    ])
+  })
+
+  it('builds both an unsecured and a secured curl command when the method is secured by a matching defined scheme and explicitly unsecured', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [
+        null,
+        { schemeName: 'customAuth' }
+      ]
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo"',
+      'curl -X GET "https://api.example.com/foo" \\\n\t-H "X-API-Key: string"'
+    ])
+  })
+
+  it('builds an unsecured curl command when the method is secured by a null scheme', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [null]
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo"'
+    ])
+  })
+
+  it('builds an unsecured curl command when the method is explicitly not secured', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: []
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo"'
+    ])
+  })
+
+  it('builds an unsecured curl command when the method is secured, but no security schemes are defined', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [
+        { schemeName: 'oauth2' }
+      ]
+    }
+    result = forMethod(methodParams, undefined)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo"'
+    ])
+  })
+
+  it('builds an unsecured curl command when the method is secured, but no matching security schemes are defined', () => {
+    methodParams = {
+      method: 'get',
+      baseUri: 'https://api.example.com',
+      path: '/foo',
+      headers: [],
+      params: [],
+      payload: '',
+      securedBy: [
+        { schemeName: 'oauth2' }
+      ]
+    }
+    result = forMethod(methodParams, securitySchemes)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X GET "https://api.example.com/foo"'
+    ])
+  })
+})
