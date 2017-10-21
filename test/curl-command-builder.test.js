@@ -267,3 +267,140 @@ describe('curlNullAuth', () => {
     expect(result).to.be.an('array').and.deep.equal([{}])
   })
 })
+
+describe('buildCurlCommands', () => {
+  let buildCurlCommands = testModule.__get__('buildCurlCommands')
+  let methodParams = {
+    method: 'post',
+    baseUri: 'https://api.example.com',
+    path: '/foo',
+    params: [
+      'bar=baz',
+      'bow=wow'
+    ],
+    headers: [
+      '-H "X-Foo: Bar"',
+      '-H "X-Bar: Baz"'
+    ],
+    payload: ' \\\n\t-d @request_body'
+  }
+  let securityScheme, result
+
+  it('builds the correct curl command when no security scheme is provided', () => {
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-d @request_body'
+    ])
+  })
+
+  it('builds the correct curl command when an x-other security scheme is provided', () => {
+    securityScheme = {
+      name: 'customAuth',
+      type: 'x-custom',
+      describedBy: {
+        headers: [
+          {
+            name: 'X-API-Key',
+            type: 'string'
+          }
+        ]
+      }
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-H "X-API-Key: string" \\\n\t-d @request_body'
+    ])
+  })
+
+  it('builds the correct curl command when na pass through secuity scheme is provided', () => {
+    securityScheme = {
+      name: 'passThrough',
+      type: 'Pass Through',
+      describedBy: {
+        headers: [
+          {
+            name: 'X-Auth',
+            type: 'string'
+          },
+          {
+            name: 'X-Auth-Again',
+            type: 'string'
+          }
+        ],
+        queryParameters: [
+          {
+            name: 'auth_token',
+            type: 'string'
+          }
+        ]
+      }
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow&auth_token=string" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-H "X-Auth: string" \\\n\t-H "X-Auth-Again: string" \\\n\t-d @request_body'
+    ])
+  })
+
+  it('builds the correct curl command when a digest security scheme is provided', () => {
+    securityScheme = {
+      name: 'digestAuth',
+      type: 'Digest Authentication'
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-d @request_body \\\n\t--user username:password \\\n\t--digest'
+    ])
+  })
+
+  it('builds the correct curl command when a basic security scheme is provided', () => {
+    securityScheme = {
+      name: 'basicAuth',
+      type: 'Basic Authentication'
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-d @request_body \\\n\t--user username:password'
+    ])
+  })
+
+  it('builds the correct set of curl commands when an OAuth 1 security scheme is provided', () => {
+    securityScheme = {
+      name: 'oauth1',
+      type: 'OAuth 1.0',
+      settings: {
+        signatures: ['HMAC-SHA1']
+      }
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-H \'Authorization: OAuth realm="API",\\\n\toauth_consumer_key="consumer_key",\\\n\toauth_token="token",\\\n\toauth_signature_method="HMAC-SHA1",\\\n\toauth_signature="computed_signature",\\\n\toauth_timestamp="timestamp",\\\n\toauth_nonce="nonce",\\\n\toauth_version="1.0"\' \\\n\t-d @request_body',
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow&oauth_consumer_key=consumer_key&oauth_token=token&oauth_signature_method=HMAC-SHA1&oauth_signature=computed_signature&oauth_timestamp=timestamp&oauth_nonce=nonce&oauth_version=1.0" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-d @request_body'
+    ])
+  })
+
+  it('builds the correct set of curl commands when an OAuth 2 security scheme is provided', () => {
+    securityScheme = {
+      name: 'oauth2',
+      type: 'OAuth 2.0',
+      describedBy: {
+        headers: [
+          {
+            name: 'Authorization',
+            type: 'string'
+          }
+        ],
+        queryParameters: [
+          {
+            name: 'access_token',
+            type: 'string'
+          }
+        ]
+      }
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-H "Authorization: Bearer string" \\\n\t-d @request_body',
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow&access_token=string" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-d @request_body'
+    ])
+  })
+})
