@@ -257,6 +257,40 @@ describe('getCurlStatement()', () => {
       }
     }
     const expected = 'curl -X GET "https://example.com/foo"\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t--user username:password \\\n\t--digest\n\n or \n\ncurl -X GET "https://example.com/foo" \\\n\t-H "X-API-Key: string"'
+    expect(getCurlStatement(securitySchemes, baseUri, method, resource, true)).to.equal(expected)
+  })
+
+  it('should return a curl command for the first security scheme defined for the method', () => {
+    const baseUri = 'https://example.com'
+    const resource = {
+      relativeUri: '/foo'
+    }
+    const method = {
+      method: 'get',
+      securedBy: [
+        { schemeName: 'digestAuth' },
+        { schemeName: 'customAuth' }
+      ]
+    }
+    securitySchemes = {
+      digestAuth: {
+        name: 'digestAuth',
+        type: 'Digest Authentication'
+      },
+      customAuth: {
+        name: 'customAuth',
+        type: 'x-custom',
+        describedBy: {
+          headers: [
+            {
+              name: 'X-API-Key',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    }
+    const expected = 'curl -X GET "https://example.com/foo" \\\n\t--user username:password \\\n\t--digest'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
 })
