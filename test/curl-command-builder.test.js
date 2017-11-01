@@ -226,6 +226,63 @@ describe('curlPassThroughAuth', () => {
       }
     ])
   })
+
+  it("doesn't choke when no headers are present", () => {
+    securityScheme = {
+      name: 'passThrough',
+      type: 'Pass Through',
+      describedBy: {
+        queryParameters: [
+          {
+            name: 'auth_token',
+            type: 'string'
+          }
+        ]
+      }
+    }
+
+    result = curlPassThroughAuth(securityScheme)
+
+    expect(result).to.be.an('array').and.deep.equal([
+      {
+        headers: [],
+        params: [
+          'auth_token=string'
+        ]
+      }
+    ])
+  })
+
+  it("doesn't choke when no query string parameters are present", () => {
+    securityScheme = {
+      name: 'passThrough',
+      type: 'Pass Through',
+      describedBy: {
+        headers: [
+          {
+            name: 'X-Auth',
+            type: 'string'
+          },
+          {
+            name: 'X-Auth-Again',
+            type: 'string'
+          }
+        ]
+      }
+    }
+
+    result = curlPassThroughAuth(securityScheme)
+
+    expect(result).to.be.an('array').and.deep.equal([
+      {
+        headers: [
+          '-H "X-Auth: string"',
+          '-H "X-Auth-Again: string"'
+        ],
+        params: []
+      }
+    ])
+  })
 })
 
 describe('curlXCustomAuth', () => {
