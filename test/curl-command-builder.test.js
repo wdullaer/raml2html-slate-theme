@@ -283,6 +283,38 @@ describe('curlPassThroughAuth', () => {
       }
     ])
   })
+
+  it('uses the example provided for the headers', () => {
+    securityScheme = {
+      name: 'passThrough',
+      type: 'Pass Through',
+      describedBy: {
+        headers: [
+          {
+            name: 'Authorization',
+            type: 'string',
+            examples: [
+              {
+                value: 'Bearer QWERYTUIOP',
+                name: null
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+    result = curlPassThroughAuth(securityScheme)
+
+    expect(result).to.be.an('array').and.deep.equal([
+      {
+        headers: [
+          '-H "Authorization: Bearer QWERYTUIOP"'
+        ],
+        params: []
+      }
+    ])
+  })
 })
 
 describe('curlXCustomAuth', () => {
