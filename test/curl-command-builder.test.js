@@ -253,6 +253,38 @@ describe('curlPassThroughAuth', () => {
     ])
   })
 
+  it('uses the example provided for the query parameter', () => {
+    securityScheme = {
+      name: 'passThrough',
+      type: 'Pass Through',
+      describedBy: {
+        queryParameters: [
+          {
+            name: 'auth_token',
+            type: 'string',
+            examples: [
+              {
+                value: 'QWERTYUIOP',
+                name: null
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+    result = curlPassThroughAuth(securityScheme)
+
+    expect(result).to.be.an('array').and.deep.equal([
+      {
+        headers: [],
+        params: [
+          'auth_token=QWERTYUIOP'
+        ]
+      }
+    ])
+  })
+
   it("doesn't choke when no query string parameters are present", () => {
     securityScheme = {
       name: 'passThrough',
