@@ -464,6 +464,25 @@ describe('buildCurlCommands', () => {
     ])
   })
 
+  it('builds the correct curl command when a security scheme starting with x- is provided', () => {
+    securityScheme = {
+      name: 'whateverAuth',
+      type: 'x-whatever',
+      describedBy: {
+        headers: [
+          {
+            name: 'Whatever',
+            type: 'string'
+          }
+        ]
+      }
+    }
+    result = buildCurlCommands(methodParams, securityScheme)
+    expect(result).to.be.an('array').and.deep.equal([
+      'curl -X POST "https://api.example.com/foo?bar=baz&bow=wow" \\\n\t-H "X-Foo: Bar" \\\n\t-H "X-Bar: Baz" \\\n\t-H "Whatever: string" \\\n\t-d @request_body'
+    ])
+  })
+
   it('builds the correct curl command when na pass through secuity scheme is provided', () => {
     securityScheme = {
       name: 'passThrough',
