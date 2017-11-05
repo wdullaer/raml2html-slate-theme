@@ -377,6 +377,37 @@ describe('curlXCustomAuth', () => {
       }
     ])
   })
+
+  it('uses an example when provided', () => {
+    securityScheme = {
+      name: 'customAuth',
+      type: 'x-custom',
+      describedBy: {
+        headers: [
+          {
+            name: 'X-API-Key',
+            type: 'string',
+            examples: [
+              {
+                name: 'apikey',
+                value: 'QWERTYUIOP'
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+    result = curlXCustomAuth(securityScheme)
+
+    expect(result).to.be.an('array').and.deep.equal([
+      {
+        headers: [
+          '-H "X-API-Key: QWERTYUIOP"'
+        ]
+      }
+    ])
+  })
 })
 
 describe('curlNullAuth', () => {
