@@ -100,7 +100,7 @@ function renderHtml (basePath, ramlObj) {
     .addGlobal('getSafeId', getSafeId)
     .addGlobal('getLanguage', getLanguage)
     .addGlobal('getResponseHeaders', getResponseHeaders)
-    .addGlobal('getCurlStatement', getCurlStatement.bind(null, ramlObj.baseUri))
+    .addGlobal('getCurlStatement', getCurlStatement.bind(null, ramlObj.securitySchemes, ramlObj.baseUri))
     .addGlobal('hasExamples', hasExamples)
     .addGlobal('getTypeDefinitions', getTypeDefinitions)
     .addGlobal('hasType', hasType)
