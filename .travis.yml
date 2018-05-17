@@ -5,6 +5,7 @@ node_js:
 - '7'
 - '6'
 - '4'
+- '10'
 deploy:
   provider: npm
   email: wouter.dullaert@gmail.com
