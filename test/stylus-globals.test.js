@@ -34,7 +34,7 @@ describe('getCurlStatement()', () => {
 
   it('should return a string', () => {
     const baseUri = ''
-    const method = {method: 'get'}
+    const method = { method: 'get' }
     const resource = {}
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.be.a('string')
   })
@@ -48,7 +48,7 @@ describe('getCurlStatement()', () => {
 
   it('should use the given HTTP method in upper case', () => {
     const baseUri = ''
-    const method = {method: 'head'}
+    const method = { method: 'head' }
     const resource = {}
     const expected = 'curl -X HEAD "/"'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
@@ -57,7 +57,7 @@ describe('getCurlStatement()', () => {
   it('should use the given parentUrl', () => {
     const baseUri = ''
     const method = {}
-    const resource = {parentUrl: '/foo'}
+    const resource = { parentUrl: '/foo' }
     const expected = 'curl -X GET "/foo/"'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
@@ -65,7 +65,7 @@ describe('getCurlStatement()', () => {
   it('should use the given relativeUri', () => {
     const baseUri = ''
     const method = {}
-    const resource = {relativeUri: '/bar/'}
+    const resource = { relativeUri: '/bar/' }
     const expected = 'curl -X GET "/bar/"'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
   })
@@ -85,7 +85,7 @@ describe('getCurlStatement()', () => {
     const method = {
       queryParameters: [{
         key: 'version',
-        examples: [{value: '1.0.0'}]
+        examples: [{ value: '1.0.0' }]
       }]
     }
     const resource = {}
@@ -99,11 +99,11 @@ describe('getCurlStatement()', () => {
       queryParameters: [
         {
           key: 'version',
-          examples: [{value: '1.0.0'}]
+          examples: [{ value: '1.0.0' }]
         },
         {
           key: 'filter',
-          examples: [{value: 'true'}]
+          examples: [{ value: 'true' }]
         }
       ]
     }
@@ -118,7 +118,7 @@ describe('getCurlStatement()', () => {
       queryParameters: [
         {
           key: 'version',
-          examples: [{value: '1.0.0'}]
+          examples: [{ value: '1.0.0' }]
         },
         {
           key: 'foo'
@@ -135,7 +135,7 @@ describe('getCurlStatement()', () => {
     const method = {
       headers: [{
         key: 'version',
-        examples: [{value: '1.0.0'}]
+        examples: [{ value: '1.0.0' }]
       }]
     }
     const resource = {}
@@ -149,11 +149,11 @@ describe('getCurlStatement()', () => {
       headers: [
         {
           key: 'version',
-          examples: [{value: '1.0.0'}]
+          examples: [{ value: '1.0.0' }]
         },
         {
           key: 'content-type',
-          examples: [{value: 'application/json'}]
+          examples: [{ value: 'application/json' }]
         }
       ]
     }
@@ -168,7 +168,7 @@ describe('getCurlStatement()', () => {
       headers: [
         {
           key: 'version',
-          examples: [{value: '1.0.0'}]
+          examples: [{ value: '1.0.0' }]
         },
         {
           key: 'foo'
@@ -182,7 +182,7 @@ describe('getCurlStatement()', () => {
 
   it('should add a payload if the method is patch', () => {
     const baseUri = 'https://example.com'
-    const method = {method: 'patch'}
+    const method = { method: 'patch' }
     const resource = {}
     const expected = 'curl -X PATCH "https://example.com/" \\\n\t-d @request_body'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
@@ -190,7 +190,7 @@ describe('getCurlStatement()', () => {
 
   it('should add a payload if the method is put', () => {
     const baseUri = 'https://example.com'
-    const method = {method: 'put'}
+    const method = { method: 'put' }
     const resource = {}
     const expected = 'curl -X PUT "https://example.com/" \\\n\t-d @request_body'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
@@ -198,7 +198,7 @@ describe('getCurlStatement()', () => {
 
   it('should add a payload if the method is post', () => {
     const baseUri = 'https://example.com'
-    const method = {method: 'post'}
+    const method = { method: 'post' }
     const resource = {}
     const expected = 'curl -X POST "https://example.com/" \\\n\t-d @request_body'
     expect(getCurlStatement(securitySchemes, baseUri, method, resource)).to.equal(expected)
@@ -210,11 +210,11 @@ describe('getCurlStatement()', () => {
       method: 'post',
       headers: [{
         key: 'content-type',
-        examples: [{value: 'application/json'}]
+        examples: [{ value: 'application/json' }]
       }],
       queryParameters: [{
         key: 'version',
-        examples: [{value: '1.0.0'}]
+        examples: [{ value: '1.0.0' }]
       }]
     }
     const resource = {
@@ -360,12 +360,12 @@ describe('getResponseHeaders()', () => {
     const input = {
       responses: [{
         headers: [
-          {key: 'foo'},
-          {key: 'bar'}
+          { key: 'foo' },
+          { key: 'bar' }
         ]
       }]
     }
-    const expected = [{key: 'foo'}, {key: 'bar'}]
+    const expected = [{ key: 'foo' }, { key: 'bar' }]
     expect(getResponseHeaders(input)).to.deep.equal(expected)
   })
 
@@ -373,14 +373,14 @@ describe('getResponseHeaders()', () => {
     const input = {
       responses: [
         {
-          headers: [{key: 'foo'}]
+          headers: [{ key: 'foo' }]
         },
         {
-          headers: [{key: 'bar'}]
+          headers: [{ key: 'bar' }]
         }
       ]
     }
-    const expected = [{key: 'foo'}, {key: 'bar'}]
+    const expected = [{ key: 'foo' }, { key: 'bar' }]
     expect(getResponseHeaders(input)).to.deep.equal(expected)
   })
 
@@ -388,14 +388,14 @@ describe('getResponseHeaders()', () => {
     const input = {
       responses: [
         {
-          headers: [{key: 'foo'}, {key: 'bar'}]
+          headers: [{ key: 'foo' }, { key: 'bar' }]
         },
         {
-          headers: [{key: 'foo'}, {key: 'bar'}]
+          headers: [{ key: 'foo' }, { key: 'bar' }]
         }
       ]
     }
-    const expected = [{key: 'foo'}, {key: 'bar'}]
+    const expected = [{ key: 'foo' }, { key: 'bar' }]
     expect(getResponseHeaders(input)).to.deep.equal(expected)
   })
 })
@@ -441,48 +441,48 @@ describe('hasExamples()', () => {
   })
 
   it('should return false if the input is not an array (object)', () => {
-    const input = {foo: 'bar'}
+    const input = { foo: 'bar' }
     expect(hasExamples(input)).to.be.false
   })
 
   it('should return false if none of the elements have an examples property', () => {
     const input = [
-      {foo: 'bar'},
-      {bar: 'baz'}
+      { foo: 'bar' },
+      { bar: 'baz' }
     ]
     expect(hasExamples(input)).to.be.false
   })
 
   it('should return false if none of the elements have an examples property with a non zero length', () => {
     const input = [
-      {foo: 'bar'},
-      {examples: 1}
+      { foo: 'bar' },
+      { examples: 1 }
     ]
     expect(hasExamples(input)).to.be.false
   })
 
   it('should return false if all elements have a property examples with a zero length', () => {
-    const input = [{examples: []}]
+    const input = [{ examples: [] }]
     expect(hasExamples(input)).to.be.false
   })
 
   it('should return true if the only element has an attribute examples with a nonzero length', () => {
-    const input = [{examples: [1]}]
+    const input = [{ examples: [1] }]
     expect(hasExamples(input)).to.be.true
   })
 
   it('should return true if all elements have an attribute examples with a nonzero length', () => {
     const input = [
-      {examples: [1]},
-      {foo: 'bar', examples: [2]}
+      { examples: [1] },
+      { foo: 'bar', examples: [2] }
     ]
     expect(hasExamples(input)).to.be.true
   })
 
   it('should return true if one element has an attribute examples with a nonzero length', () => {
     const input = [
-      {examples: [1]},
-      {examples: []}
+      { examples: [1] },
+      { examples: [] }
     ]
     expect(hasExamples(input)).to.be.true
   })
@@ -510,15 +510,15 @@ describe('getTypeDefinitions()', () => {
     const context = {
       ctx: {
         schemas: [
-          {foo: {type: 'bar'}},
-          {bar: {type: 'baz'}}
+          { foo: { type: 'bar' } },
+          { bar: { type: 'baz' } }
         ]
       }
     }
     const testFn = getTypeDefinitions.bind(context)
     const expectedOutput = [
-      {content: 'bar', type: 'json'},
-      {content: 'baz', type: 'json'}
+      { content: 'bar', type: 'json' },
+      { content: 'baz', type: 'json' }
     ]
 
     expect(testFn()).to.be.an('array').that.deep.equals(expectedOutput)
@@ -528,13 +528,13 @@ describe('getTypeDefinitions()', () => {
     const context = {
       ctx: {
         types: {
-          foo: {key: 'bar'},
-          bar: {key: 'baz'}
+          foo: { key: 'bar' },
+          bar: { key: 'baz' }
         }
       }
     }
     const testFn = getTypeDefinitions.bind(context)
-    const expectedOutput = [{key: 'bar'}, {key: 'baz'}]
+    const expectedOutput = [{ key: 'bar' }, { key: 'baz' }]
 
     expect(testFn()).to.be.an('array').that.deep.equals(expectedOutput)
   })
@@ -542,15 +542,15 @@ describe('getTypeDefinitions()', () => {
   it('should return the types if both schemas and types are present in the context', () => {
     const context = {
       ctx: {
-        schemas: [{foo: {key: 'foo'}}],
+        schemas: [{ foo: { key: 'foo' } }],
         types: {
-          bar: {key: 'bar'},
-          baz: {key: 'baz'}
+          bar: { key: 'bar' },
+          baz: { key: 'baz' }
         }
       }
     }
     const testFn = getTypeDefinitions.bind(context)
-    const expectedOutput = [{key: 'bar'}, {key: 'baz'}]
+    const expectedOutput = [{ key: 'bar' }, { key: 'baz' }]
 
     expect(testFn()).to.be.an('array').that.deep.equals(expectedOutput)
   })
@@ -619,7 +619,7 @@ describe('typeToJson()', () => {
       name: 'foo',
       type: 'json',
       description: 'some text',
-      properties: [{key: 'bar'}]
+      properties: [{ key: 'bar' }]
     }
     const expectedOutput = '{\n  "name": "foo",\n  "type": "json",\n  "description": "some text",\n  "properties": [\n    {\n      "key": "bar"\n    }\n  ]\n}'
 
@@ -631,13 +631,13 @@ describe('hasType()', () => {
   const hasType = testModule.__get__('hasType')
 
   it('should return true if the input has a schema property', () => {
-    const input = {schema: 'foo'}
+    const input = { schema: 'foo' }
 
     expect(hasType(input)).to.be.true
   })
 
   it('should return true if the input has a type property', () => {
-    const input = {type: 'foo'}
+    const input = { type: 'foo' }
 
     expect(hasType(input)).to.be.true
   })
@@ -652,7 +652,7 @@ describe('hasType()', () => {
   })
 
   it('should return false if the input has neither type nor schema as a property', () => {
-    const input = {foo: 'bar'}
+    const input = { foo: 'bar' }
 
     expect(hasType(input)).to.be.false
   })
@@ -676,21 +676,21 @@ describe('getschema()', () => {
   })
 
   it('should return an empty string if the input does not have a type or schema', () => {
-    const input = {foo: 'bar'}
+    const input = { foo: 'bar' }
     const expectedOutput = ''
 
     expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return the type property if it is a string', () => {
-    const input = {type: 'foo'}
+    const input = { type: 'foo' }
     const expectedOutput = 'foo'
 
     expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return the schema property if it is a string', () => {
-    const input = {schema: 'foo'}
+    const input = { schema: 'foo' }
     const expectedOutput = 'foo'
 
     expect(getType(input)).to.equal(expectedOutput)
@@ -707,14 +707,14 @@ describe('getschema()', () => {
   })
 
   it('should return the first element if the type is an array', () => {
-    const input = {type: ['foo', 'bar']}
+    const input = { type: ['foo', 'bar'] }
     const expectedOutput = 'foo'
 
     expect(getType(input)).to.equal(expectedOutput)
   })
 
   it('should return a string if the type is an object', () => {
-    const input = {type: {foo: 'bar'}}
+    const input = { type: { foo: 'bar' } }
     const expectedOutput = '{\n  "foo": "bar"\n}'
 
     expect(getType(input)).to.equal(expectedOutput)

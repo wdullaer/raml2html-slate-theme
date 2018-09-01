@@ -62,19 +62,19 @@ describe('configureTheme()', () => {
 
   it('should set logoPath to args["logo"]', () => {
     const input = '/foo/bar.png'
-    const args = {logo: input}
+    const args = { logo: input }
     expect(configureTheme(args)).to.have.a.property('logoPath').that.equals(input)
   })
 
   it('should set colorThemePath to args["color-theme"]', () => {
     const input = '/foo/styl.styl'
-    const args = {'color-theme': input}
+    const args = { 'color-theme': input }
     expect(configureTheme(args)).to.have.a.property('colorThemePath').that.equals(input)
   })
 
   it('should set languageTabs to args["language-tabs"]', () => {
     const input = ['foo']
-    const args = {'language-tabs': input}
+    const args = { 'language-tabs': input }
     expect(configureTheme(args)).to.have.a.property('languageTabs').that.equals(input)
   })
 
@@ -96,7 +96,7 @@ describe('configureTheme()', () => {
         readFileSync: fs.readFileSync
       }
     })
-    const args = {'generate-color-theme': true}
+    const args = { 'generate-color-theme': true }
     configureTheme(args)
   })
 })
@@ -198,8 +198,8 @@ describe('processRamlObj()', () => {
   let processRamlObj = testModule.__get__('processRamlObj')
 
   it('should return a Promise', () => {
-    const ramlObj = {foo: 'bar'}
-    const config = {bar: 'baz'}
+    const ramlObj = { foo: 'bar' }
+    const config = { bar: 'baz' }
     const prom = processRamlObj(ramlObj, config)
     prom.catch(() => {})
 
@@ -207,7 +207,7 @@ describe('processRamlObj()', () => {
   })
 
   it('should resolve to a string', () => {
-    const ramlObj = {foo: 'bar'}
+    const ramlObj = { foo: 'bar' }
     const config = {
       logoPath: testModule.__get__('DEFAULT_LOGO'),
       colorThemePath: testModule.__get__('DEFAULT_COLOR_THEME'),
@@ -272,7 +272,7 @@ describe('validateLanguageTabs()', () => {
   })
 
   it('should throw an error if the input array contains an object', () => {
-    const input = ['foo', {bar: 'baz'}]
+    const input = ['foo', { bar: 'baz' }]
     const testFunction = validateLanguageTabs.bind(null, input)
 
     expect(testFunction).to.throw(TypeError)
