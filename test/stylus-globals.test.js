@@ -418,8 +418,8 @@ describe('getSafeId', () => {
   })
 
   it('should return a string without spaces', () => {
-    const input = 'foo bar'
-    expect(getSafeId(input)).to.equal('foo-bar')
+    const input = 'foo bar foo'
+    expect(getSafeId(input)).to.equal('foo-bar-foo')
   })
 })
 
