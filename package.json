@@ -1,7 +1,7 @@
 {
   "name": "raml2html-slate-theme",
   "description": "A raml2html template for rendering RAML to a Slate like layout",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "author": {
     "name": "Wouter Dullaert",
     "email": "wouter.dullaert@gmail.com",
@@ -11,16 +11,16 @@
     "url": "https://github.com/wdullaer/raml2html-slate-theme/issues"
   },
   "dependencies": {
-    "marked": "^0.5.1",
+    "marked": "^0.5.2",
     "minimize": "^2.2.0",
-    "nunjucks": "^3.1.3",
+    "nunjucks": "^3.1.6",
     "nunjucks-markdown": "^2.0.1",
     "stylus": "^0.54.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^5.8.0",
+    "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "~2.14.0",
     "eslint-plugin-node": "~8.0.0",
@@ -28,7 +28,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
-    "raml2html": "^7.2.0",
+    "raml2html": "^7.2.1",
     "rewire": "^4.0.1"
   },
   "homepage": "https://github.com/wdullaer/raml2html-slate-theme",
@@ -49,7 +49,7 @@
     "templates"
   ],
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "eslintConfig": {
     "extends": "standard"
