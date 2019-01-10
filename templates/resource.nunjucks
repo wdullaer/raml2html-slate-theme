@@ -59,12 +59,16 @@
 {% if (method.responses | length) != 0 %}
 <br/>
 <p><strong><em><big>Possible Responses</big></em></strong></p>
-<p>
-  {%- set comma = joiner() -%}
-  {%- for response in method.responses -%}
-  {{ comma() }} {{ response.code }}
-  {%- endfor -%}
-</p>
+<dl>
+{% for response in method.responses %}
+  <dt>{{ response.code }}</dt>
+  <dd>
+     {% markdown -%}
+        {{ response.description}}
+     {%- endmarkdown %}
+  </dd>
+{% endfor %}
+</dl>
 {% endif %}
 </div>
 
