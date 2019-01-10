@@ -142,11 +142,11 @@
 {% endif %}
 
 {% for response in method.responses %}
-  {% if ((response.code == "200" or response.code == "201") and hasExamples(response.body)) %}
+  {% if ((response.code >= 200 and response.code < 300) and hasExamples(response.body)) %}
     <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY</h3></blockquote>
     {% for body in response.body %}
       {% for example in body.examples %}
-<h4 class="toc-ignore">{{ example.displayName }}</h4>
+<h4 class="toc-ignore">{{ example.displayName }} <i>{{ response.code }}</i></h4>
     {% if (example.description) %}
 <p>
    {% markdown -%}
