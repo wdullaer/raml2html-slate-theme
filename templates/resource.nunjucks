@@ -64,7 +64,7 @@
   <dt>{{ response.code }}</dt>
   <dd>
      {% markdown -%}
-        {{ response.description}}
+        {{ response.description }}
      {%- endmarkdown %}
   </dd>
 {% endfor %}
