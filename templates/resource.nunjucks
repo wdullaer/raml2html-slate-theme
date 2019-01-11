@@ -59,12 +59,14 @@
 {% if (method.responses | length) != 0 %}
 <br/>
 <p><strong><em><big>Possible Responses</big></em></strong></p>
-<p>
-  {%- set comma = joiner() -%}
-  {%- for response in method.responses -%}
-  {{ comma() }} {{ response.code }}
-  {%- endfor -%}
-</p>
+{% for response in method.responses %}
+  <p>
+    <strong>{{ response.code }}</strong>
+    {% markdown -%}
+      {{ response.description }}
+    {%- endmarkdown %}
+  </p>
+{% endfor %}
 {% endif %}
 </div>
 
@@ -102,7 +104,11 @@
   {% for example in body.examples %}
 <h4 class="toc-ignore">{{ example.displayName }}</h4>
     {% if (example.description) %}
-<p>{{ example.description }}</p>
+<p>
+   {% markdown -%}
+      {{ example.description }}
+   {%- endmarkdown %}
+</p>
     {% endif %}
 <div class="languagebox {{ getLanguage(body.key) }}">
 <pre><code>{{ example.value | escape }}</code></pre>
@@ -134,13 +140,17 @@
 {% endif %}
 
 {% for response in method.responses %}
-  {% if ((response.code == "200" or response.code == "201") and hasExamples(response.body)) %}
+  {% if ((response.code >= 200 and response.code < 300) and hasExamples(response.body)) %}
     <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY</h3></blockquote>
     {% for body in response.body %}
       {% for example in body.examples %}
-<h4 class="toc-ignore">{{ example.displayName }}</h4>
+<h4 class="toc-ignore">{{ example.displayName }} <i>{{ response.code }}</i></h4>
     {% if (example.description) %}
-<p>{{ example.description }}</p>
+<p>
+   {% markdown -%}
+      {{ example.description }}
+   {%- endmarkdown %}
+</p>
     {% endif %}      
 <div class="languagebox {{ getLanguage(body.key) }}">
 <pre><code>{{ example.value | escape }}</code></pre>
