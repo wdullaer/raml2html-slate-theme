@@ -59,16 +59,14 @@
 {% if (method.responses | length) != 0 %}
 <br/>
 <p><strong><em><big>Possible Responses</big></em></strong></p>
-<dl>
 {% for response in method.responses %}
-  <dt>{{ response.code }}</dt>
-  <dd>
-     {% markdown -%}
-        {{ response.description }}
-     {%- endmarkdown %}
-  </dd>
+  <p>
+    <strong>{{ response.code }}</strong>
+    {% markdown -%}
+      {{ response.description }}
+    {%- endmarkdown %}
+  </p>
 {% endfor %}
-</dl>
 {% endif %}
 </div>
 
