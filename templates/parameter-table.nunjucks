@@ -1,6 +1,8 @@
 <p>
   <strong>{{ param.key }}</strong></br>
+  {% markdown -%}
   {{ param.description }}
+  {%- endmarkdown %}
 </p>
 
 <table>
