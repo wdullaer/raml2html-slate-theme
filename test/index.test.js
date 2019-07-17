@@ -15,7 +15,7 @@ describe('Module exports', () => {
 
 describe('configureTheme()', () => {
   let restore
-  let configureTheme = testModule.__get__('configureTheme')
+  const configureTheme = testModule.__get__('configureTheme')
 
   beforeEach(() => {
     restore = () => {}
@@ -102,7 +102,7 @@ describe('configureTheme()', () => {
 })
 
 describe('loadLogo()', () => {
-  let loadLogo = testModule.__get__('loadLogo')
+  const loadLogo = testModule.__get__('loadLogo')
 
   it('should return a Promise', () => {
     const prom = loadLogo()
@@ -122,7 +122,7 @@ describe('loadLogo()', () => {
 
 describe('renderCss()', () => {
   let restore
-  let renderCss = testModule.__get__('renderCss')
+  const renderCss = testModule.__get__('renderCss')
 
   beforeEach(() => {
     restore = () => {}
@@ -159,7 +159,7 @@ describe('renderCss()', () => {
 })
 
 describe('renderHtml()', () => {
-  let renderHtml = testModule.__get__('renderHtml')
+  const renderHtml = testModule.__get__('renderHtml')
 
   it('should return a string', () => {
     const templatesPath = testModule.__get__('templatesPath')
@@ -168,7 +168,7 @@ describe('renderHtml()', () => {
 })
 
 describe('postProcessHtml()', () => {
-  let postProcessHtml = testModule.__get__('postProcessHtml')
+  const postProcessHtml = testModule.__get__('postProcessHtml')
   let restore
 
   beforeEach(() => {
@@ -195,7 +195,7 @@ describe('postProcessHtml()', () => {
 })
 
 describe('processRamlObj()', () => {
-  let processRamlObj = testModule.__get__('processRamlObj')
+  const processRamlObj = testModule.__get__('processRamlObj')
 
   it('should return a Promise', () => {
     const ramlObj = { foo: 'bar' }
@@ -226,7 +226,7 @@ describe('processRamlObj()', () => {
 })
 
 describe('validateLanguageTabs()', () => {
-  let validateLanguageTabs = testModule.__get__('validateLanguageTabs')
+  const validateLanguageTabs = testModule.__get__('validateLanguageTabs')
   let restore
 
   beforeEach(() => {

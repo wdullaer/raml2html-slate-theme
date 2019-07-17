@@ -28,7 +28,7 @@ describe('Utils exports', () => {
 })
 
 describe('readFile()', () => {
-  let readFile = testModule.__get__('readFile')
+  const readFile = testModule.__get__('readFile')
 
   it('should return a Promise', () => {
     const prom = readFile('/foo')
@@ -46,7 +46,7 @@ describe('readFile()', () => {
 })
 
 describe('getMimeType()', () => {
-  let getMimeType = testModule.__get__('getMimeType')
+  const getMimeType = testModule.__get__('getMimeType')
   it('should return `image/png` for an unknown extension', () => {
     expect(getMimeType('foo')).to.equal('image/png')
   })
@@ -85,7 +85,7 @@ describe('getMimeType()', () => {
 })
 
 describe('logAndExit()', () => {
-  let logAndExit = testModule.__get__('logAndExit')
+  const logAndExit = testModule.__get__('logAndExit')
   let restore
 
   beforeEach(() => {

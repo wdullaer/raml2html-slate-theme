@@ -17,7 +17,7 @@ describe('curl command builder exports', () => {
 })
 
 describe('curlOAuth2', () => {
-  let curlOAuth2 = testModule.__get__('curlOAuth2')
+  const curlOAuth2 = testModule.__get__('curlOAuth2')
   let securityScheme, result
 
   it('returns an array with an entry for the header', () => {
@@ -87,7 +87,7 @@ describe('curlOAuth2', () => {
 })
 
 describe('curlOAuth1', () => {
-  let curlOAuth1 = testModule.__get__('curlOAuth1')
+  const curlOAuth1 = testModule.__get__('curlOAuth1')
   let securityScheme, result
 
   it('when a signature scheme is provided, returns an array with an entry for the header and for the query string', () => {
@@ -147,7 +147,7 @@ describe('curlOAuth1', () => {
 })
 
 describe('curlBasicAuth', () => {
-  let curlBasicAuth = testModule.__get__('curlBasicAuth')
+  const curlBasicAuth = testModule.__get__('curlBasicAuth')
   let securityScheme, result
 
   it('returns an array with a single command line option', () => {
@@ -165,7 +165,7 @@ describe('curlBasicAuth', () => {
 })
 
 describe('curlDigestAuth', () => {
-  let curlDigestAuth = testModule.__get__('curlDigestAuth')
+  const curlDigestAuth = testModule.__get__('curlDigestAuth')
   let securityScheme, result
 
   it('returns an array with a single command line option', () => {
@@ -185,7 +185,7 @@ describe('curlDigestAuth', () => {
 })
 
 describe('curlPassThroughAuth', () => {
-  let curlPassThroughAuth = testModule.__get__('curlPassThroughAuth')
+  const curlPassThroughAuth = testModule.__get__('curlPassThroughAuth')
   let securityScheme, result
 
   it('adds headers and query string parameters for every entry in the scheme', () => {
@@ -350,7 +350,7 @@ describe('curlPassThroughAuth', () => {
 })
 
 describe('curlXCustomAuth', () => {
-  let curlXCustomAuth = testModule.__get__('curlXCustomAuth')
+  const curlXCustomAuth = testModule.__get__('curlXCustomAuth')
   let securityScheme, result
 
   it('adds headers for every entry in the scheme', () => {
@@ -411,7 +411,7 @@ describe('curlXCustomAuth', () => {
 })
 
 describe('curlNullAuth', () => {
-  let curlNullAuth = testModule.__get__('curlNullAuth')
+  const curlNullAuth = testModule.__get__('curlNullAuth')
   let result
 
   it('returns an array with an empty object', () => {
@@ -421,8 +421,8 @@ describe('curlNullAuth', () => {
 })
 
 describe('buildCurlCommands', () => {
-  let buildCurlCommands = testModule.__get__('buildCurlCommands')
-  let methodParams = {
+  const buildCurlCommands = testModule.__get__('buildCurlCommands')
+  const methodParams = {
     method: 'post',
     baseUri: 'https://api.example.com',
     path: '/foo',
@@ -577,8 +577,8 @@ describe('buildCurlCommands', () => {
 })
 
 describe('forMethod', () => {
-  let forMethod = testModule.__get__('forMethod')
-  let securitySchemes = {
+  const forMethod = testModule.__get__('forMethod')
+  const securitySchemes = {
     digestAuth: {
       name: 'digestAuth',
       type: 'Digest Authentication'

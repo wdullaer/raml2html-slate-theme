@@ -29,7 +29,7 @@ describe('Stylus globals exports', () => {
 })
 
 describe('getCurlStatement()', () => {
-  let getCurlStatement = testModule.__get__('getCurlStatement')
+  const getCurlStatement = testModule.__get__('getCurlStatement')
   let securitySchemes
 
   it('should return a string', () => {
@@ -296,7 +296,7 @@ describe('getCurlStatement()', () => {
 })
 
 describe('getLanguage()', () => {
-  let getLanguage = testModule.__get__('getLanguage')
+  const getLanguage = testModule.__get__('getLanguage')
 
   it('should return a string when the input is undefined', () => {
     expect(getLanguage()).to.be.a('string')
@@ -344,7 +344,7 @@ describe('getLanguage()', () => {
 })
 
 describe('getResponseHeaders()', () => {
-  let getResponseHeaders = testModule.__get__('getResponseHeaders')
+  const getResponseHeaders = testModule.__get__('getResponseHeaders')
 
   it('should return an array', () => {
     expect(getResponseHeaders()).to.be.an('array')
@@ -401,7 +401,7 @@ describe('getResponseHeaders()', () => {
 })
 
 describe('getSafeId', () => {
-  let getSafeId = testModule.__get__('getSafeId')
+  const getSafeId = testModule.__get__('getSafeId')
 
   it('should return a string when input is undefined', () => {
     expect(getSafeId()).to.be.a('string')
