@@ -32,7 +32,9 @@
   <h1 id="{{ getSafeId(resource.relativeUri) }}">{{ resource.relativeUri }}</h1>
 {% endif %}
 <p>
-  {{ resource.description }}
+  {% markdown -%}
+    {{ resource.description }}
+  {%- endmarkdown %}
 </p>
 
 {% include "./resource.nunjucks" %}
