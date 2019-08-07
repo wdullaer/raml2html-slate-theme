@@ -1,6 +1,10 @@
 {% if (resource.methods or (resource.description and resource.parentUrl)) %}
 {% if resource.parentUrl %}
-  <p>{{ resource.description }}</p>
+<p>
+  {% markdown -%}
+    {{ resource.description }}
+  {%- endmarkdown %}
+</p>
 {% endif %}
 {% for method in resource.methods %}
 
