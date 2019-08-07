@@ -19,6 +19,12 @@
       <td><em>type</em></td>
       <td>{{ param.type }}</td>
     </tr>
+    {% if param.format -%}
+    <tr>
+      <td><em>format</em></td>
+      <td>{{ param.format }}</td>
+    </tr>
+    {% endif -%}
     {% if param.enum -%}
     {%- set comma = joiner() -%}
     <tr>
