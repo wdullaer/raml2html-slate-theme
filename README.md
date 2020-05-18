@@ -1,4 +1,5 @@
-# raml2html-slate-theme [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
+# raml2html-slate-theme 
+[![NPM version][npm-image]][npm-url] ![Build Status][actions-image] [![Dependency Status][daviddm-image]][daviddm-url]
 
 > Render the RAML API spec in the slate documentation layout using raml2html
 
@@ -82,9 +83,6 @@ MIT © [Wouter Dullaert](https://wdullaer.com)
 
 [npm-image]: https://badge.fury.io/js/raml2html-slate-theme.svg
 [npm-url]: https://npmjs.org/package/raml2html-slate-theme
-[travis-image]: https://travis-ci.org/wdullaer/raml2html-slate-theme.svg?branch=master
-[travis-url]: https://travis-ci.org/wdullaer/raml2html-slate-theme
+[actions-image]: https://github.com/wdullaer/raml2html-slate-theme/workflows/raml2html-slate-theme/badge.svg
 [daviddm-image]: https://david-dm.org/wdullaer/raml2html-slate-theme.svg?theme=shields.io
 [daviddm-url]: https://david-dm.org/wdullaer/raml2html-slate-theme
-[greenkeeper-image]: https://badges.greenkeeper.io/wdullaer/raml2html-slate-theme.svg
-[greenkeeper-url]: https://greenkeeper.io/
