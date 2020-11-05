@@ -11,7 +11,7 @@
     "url": "https://github.com/wdullaer/raml2html-slate-theme/issues"
   },
   "dependencies": {
-    "marked": "^0.8.0",
+    "marked": "^1.2.3",
     "minimize": "^2.2.0",
     "nunjucks": "^3.2.0",
     "nunjucks-markdown": "^2.0.1",
