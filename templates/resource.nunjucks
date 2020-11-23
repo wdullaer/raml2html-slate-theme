@@ -105,6 +105,7 @@
 {% if (method.body | length != 0) %}
 <blockquote><h3 class="toc-ignore">REQUEST BODY</h3></blockquote>
 {% for body in method.body %}
+  <h4>{{body.description}}</h4>
   {% if hasExamples(method.body) %}
     {% for example in body.examples %}
 <h4 class="toc-ignore">{{ example.displayName }}</h4>
@@ -146,8 +147,8 @@
 {% endif %}
 
 {% for response in method.responses %}
-  {% if (response.code >= 200 and response.code < 300) %}
-    <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY</h3></blockquote>
+  {% if (response.code >= 200 and response.code < 600) %}
+    <blockquote><h3 h3 class="toc-ignore">RESPONSE BODY - {{response.code}}</h3></blockquote>
     {% for body in response.body %}
       {% if hasExamples(response.body) %}
         {% for example in body.examples %}
