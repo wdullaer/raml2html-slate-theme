@@ -1,1 +1,0 @@
---recursive --ui bdd -t 5000 -R spec --bail

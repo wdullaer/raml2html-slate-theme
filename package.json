@@ -11,24 +11,23 @@
     "url": "https://github.com/wdullaer/raml2html-slate-theme/issues"
   },
   "dependencies": {
-    "marked": "^0.8.0",
+    "marked": "^1.2.7",
     "minimize": "^2.2.0",
-    "nunjucks": "^3.2.0",
+    "nunjucks": "^3.2.2",
     "nunjucks-markdown": "^2.0.1",
-    "stylus": "^0.54.7"
+    "stylus": "^0.54.8"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^6.5.1",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "~2.22.0",
+    "eslint": "^7.18.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "~2.22.1",
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^7.0.1",
-    "nyc": "^15.0.0",
-    "raml2html": "^7.4.0",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "raml2html": "^7.6.0",
     "rewire": "^5.0.0"
   },
   "homepage": "https://github.com/wdullaer/raml2html-slate-theme",
@@ -53,6 +52,13 @@
   },
   "eslintConfig": {
     "extends": "standard"
+  },
+  "mocha": {
+    "recursive": true,
+    "bail": true,
+    "ui": "bdd",
+    "reporter": "spec",
+    "t": 5000
   },
   "scripts": {
     "coverage": "./node_modules/.bin/nyc ./node_modules/mocha/bin/mocha",
