@@ -103,32 +103,39 @@
 {% endif %}
 
 {% if (method.body | length != 0) %}
-<blockquote><h3 class="toc-ignore">REQUEST BODY</h3></blockquote>
-{% for body in method.body %}
-  {% if hasExamples(method.body) %}
-    {% for example in body.examples %}
-<h4 class="toc-ignore">{{ example.displayName }}</h4>
-      {% if (example.description) %}
-<p>
-        {% markdown -%}
-          {{ example.description }}
-        {%- endmarkdown %}
-</p>
+    <blockquote><h3 class="toc-ignore">REQUEST BODY</h3></blockquote>
+    {% for body in method.body %}
+        <p><strong> {{body.description}} </strong></p>
+      {% if hasExamples(method.body) %}
+        {% for example in body.examples %}
+            <div class="languagebox {{ getLanguage(body.key) }}">
+            <details>
+                <summary> Example {{example.displayName}} </summary>
+                  {% if (example.description) %}
+                    <p>
+                    {% markdown -%}
+                      {{ example.description }}
+                    {%- endmarkdown %}
+                    </p>
+                  {% endif %}
+                <pre><code>{{ example.value | escape }}</code></pre>
+            </details>
+            </div>
+        {% endfor %}
       {% endif %}
-<div class="languagebox {{ getLanguage(body.key) }}">
-<pre><code>{{ example.value | escape }}</code></pre>
-</div>
+      {% if hasType(body)%}
+        {% if body.type == 'any' %}
+            <p> Type: any </p>
+        {%else%}
+          <div class="languagebox {{ getLanguage(body.key) }}">
+            <details>
+                <summary>Type</summary>
+                <pre><code>{{ getType(body) | escape }}</code></pre>
+            </details>
+          </div>
+        {% endif %}
+      {% endif %}
     {% endfor %}
-  {% endif %}
-  {% if hasType(body) %}
-  <div class="languagebox {{ getLanguage(body.key) }}">
-    <details>
-      <summary>Type</summary>
-      <pre><code>{{ getType(body) | escape }}</code></pre>
-    </details>
-  </div>
-  {% endif %}
-{% endfor %}
 {% endif %}
 
 {% set responseHeaders = getResponseHeaders(method) %}
@@ -151,26 +158,32 @@
     {% for body in response.body %}
       {% if hasExamples(response.body) %}
         {% for example in body.examples %}
-<h4 class="toc-ignore">{{ example.displayName }} <i>{{ response.code }}</i></h4>
-          {% if (example.description) %}
-<p>
-            {% markdown -%}
-              {{ example.description }}
-            {%- endmarkdown %}
-</p>
-          {% endif %}
-<div class="languagebox {{ getLanguage(body.key) }}">
-<pre><code>{{ example.value | escape }}</code></pre>
-</div>
+        <div class="languagebox {{ getLanguage(body.key) }}">
+        <details>
+            <summary> Example {{example.displayName}} </summary>
+              {% if (example.description) %}
+                <p>
+                {% markdown -%}
+                  {{ example.description }}
+                {%- endmarkdown %}
+                </p>
+              {% endif %}
+            <pre><code>{{ example.value | escape }}</code></pre>
+        </details>
+        </div>
         {% endfor %}
       {% endif %}
-      {% if hasType(body) %}
-        <div class="languagebox {{ getLanguage(body.key) }}">
-          <details>
-            <summary>Type</summary>
-            <pre><code>{{ getType(body) | escape }}</code></pre>
-          </details>
-        </div>
+      {% if (hasType(body)) %}
+        {% if body.type == 'any' %}
+            <p> Type: any </p>
+        {%else%}
+            <div class="languagebox {{ getLanguage(body.key) }}">
+              <details>
+                <summary>Type</summary>
+                <pre><code>{{ getType(body) | escape }}</code></pre>
+              </details>
+            </div>
+        {% endif %}
       {% endif %}
     {% endfor %}
   {% endif %}
