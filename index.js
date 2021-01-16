@@ -20,8 +20,6 @@ const getTypeDefinitions = require(path.join(__dirname, 'lib/stylus-globals.js')
 const hasType = require(path.join(__dirname, 'lib/stylus-globals.js')).hasType
 const getType = require(path.join(__dirname, 'lib/stylus-globals.js')).getType
 
-require(path.join(__dirname, 'lib/array-includes-polyfil.js'))()
-
 let minimize = new Minimize({quotes: true})
 const templatesPath = path.join(__dirname, 'templates')
 const DEFAULT_LOGO = path.join(templatesPath, 'images', 'logo.png')
